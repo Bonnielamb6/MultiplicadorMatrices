@@ -35,11 +35,17 @@ public class secuencial {
         System.out.println("\nCuanta cantidad de columnas quieres que tenga la segunda matriz?");
         columnas2 = scanner.nextInt();
         
-        matriz1 = objeto.multiplicar(filas1, columnas1, matriz1, filas2, columnas2, matriz2);
+        int matriz2[][] = new int [filas2][columnas2];
+        
+        objeto.calcularFilasColumnas(filas1, columnas2);
+        
+        int matrizResultado [][] = new int [objeto.getFilas()][objeto.getColumnas()];
+        
+         matrizResultado = objeto.multiplicar( matriz1, matriz2);
                 
-        for(int i = 0;i<filas;i++){
-            for(int j = 0;j<columnas;j++){
-                System.out.println(matriz[i][j]+",");
+        for(int i = 0;i<objeto.getFilas();i++){
+            for(int j = 0;j<objeto.getColumnas();j++){
+                System.out.println(matrizResultado[i][j]+",");
             }
         }
         
