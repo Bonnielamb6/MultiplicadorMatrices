@@ -14,9 +14,20 @@ public class Matriz {
     private int columnas;
     
     
-    public int[][] multiplicar( int [][]matrizMultiplicar1, int[][]matrizMultiplicar2){
+    public int[][] multiplicar(int filas1, int columnas1, int filas2,int columnas2, int [][]matrizMultiplicar1, int[][]matrizMultiplicar2){
         int matrizRetorno [][] = new int [filas][columnas];
-        
+        int temp =0;
+        for(int i = 0;i<filas1;i++){
+            for(int j = 0;j<columnas2;j++ ){
+                for(int recorrer = 0;recorrer<columnas1;recorrer++){
+                    temp+=matrizMultiplicar1[i][recorrer] * matrizMultiplicar2[recorrer][j];
+                }
+                
+                matrizRetorno[i][j]=temp;
+                temp =0;
+            }
+            
+        }
         
         return matrizRetorno;
     }
