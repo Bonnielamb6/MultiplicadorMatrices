@@ -4,6 +4,7 @@
  */
 package back;
 
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -51,18 +52,52 @@ public class secuencial {
 //            {0,-9,5},
 //            {5,1,4}
 //        };
-        objeto.calcularFilasColumnas(2, 3);
+//        objeto.calcularFilasColumnas(2, 3);
+        long semilla = 12345L; // Cambia esta semilla si deseas obtener diferentes números aleatorios
+        int min = -9;
+        int max = 9;
 
-        int matrizResultado[][] = new int[objeto.getFilas()][objeto.getColumnas()];
+        Random rand = new Random(semilla);
 
-        matrizResultado = objeto.multiplicar(2, 4, 4, 3, matriz1, matriz2);
+        for (int i = 0; i < filas1; i++) {
+            for (int j = 0; j < columnas1; j++) {
+                int numeroAleatorio = rand.nextInt(max - min + 1) + min;
+                matriz1[i][j] = numeroAleatorio;
+            }
+        }
+        
+        for (int i = 0; i < filas2; i++) {
+            for (int j = 0; j < columnas2; j++) {
+                int numeroAleatorio = rand.nextInt(max - min + 1) + min;
+                matriz2[i][j] = numeroAleatorio;
+            }
+        }
 
-        for (int i = 0; i < objeto.getFilas(); i++) {
-            for (int j = 0; j < objeto.getColumnas(); j++) {
-                System.out.print(matrizResultado[i][j] + ",");
+        for (int i = 0; i < filas1; i++) {
+            for (int j = 0; j < columnas1; j++) {
+                System.out.print(matriz1[i][j] + ",");
             }
             System.out.println("");
         }
+        
+        System.out.println("");
+        for (int i = 0; i < filas2; i++) {
+            for (int j = 0; j < columnas2; j++) {
+                System.out.print(matriz2[i][j] + ",");
+            }
+            System.out.println("");
+        }
+        
+//        int matrizResultado[][] = new int[objeto.getFilas()][objeto.getColumnas()];
+//
+//        matrizResultado = objeto.multiplicar(2, 4, 4, 3, matriz1, matriz2);
+//
+//        for (int i = 0; i < objeto.getFilas(); i++) {
+//            for (int j = 0; j < objeto.getColumnas(); j++) {
+//                System.out.print(matrizResultado[i][j] + ",");
+//            }
+//            System.out.println("");
+//        }
 
     }
 
