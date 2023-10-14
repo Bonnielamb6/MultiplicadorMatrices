@@ -11,22 +11,22 @@ package back;
 public class HilosMultiplicar implements Runnable {
 
     int[][] fila;
-    int[][] columna;
+    int[][] matriz2;
     int posFila;
     int posColumna;
     MatrizConcurrente planificador;
 
-    public HilosMultiplicar(int[][] fila, int[][] columna, int posFila, int posColumna, MatrizConcurrente planificador) {
+    public HilosMultiplicar(int[][] fila, int[][] matriz2, int posFila,MatrizConcurrente planificador) {
         this.fila = fila;
-        this.columna = columna;
+        this.matriz2 = matriz2;
         this.posFila = posFila;
-        this.posColumna = posColumna;
+        
         this.planificador = planificador;
     }
 
     public void recibirDatos(int[][] filaTemp, int[][] columnaTemp, int posFilaTemp, int posColumnaTemp) {
         fila = filaTemp;
-        columna = columnaTemp;
+        matriz2 = columnaTemp;
         posFila = posFilaTemp;
         posColumna = posColumnaTemp;
     }
@@ -35,20 +35,36 @@ public class HilosMultiplicar implements Runnable {
     public void run() {
 
         try {
-            int matrizRetorno[][] = new int[fila.length][columna.length];
+            int matrizRetorno[][] = new int[fila.length][matriz2.length];
             int temp = 0;
             for (int i = 0; i < fila.length; i++) {
-                for (int j = 0; j < columna.length; j++) {
-                    for (int recorrer = 0; recorrer < fila.length; recorrer++) {
-                        temp += fila[i][recorrer] * columna[recorrer][j];
+                for (int j = 0; j < matriz2[0].length; j++) {
+                    for (int recorrer = 0; recorrer < matriz2[0].length; recorrer++) {
+                        temp += fila[i][recorrer] * matriz2[recorrer][j];
                     }
 
                     matrizRetorno[i][j] = temp;
                     temp = 0;
+                    //System.out.println(""+fila.length + ", "+columna.length);
                 }
 
             }
+            //System.out.println("Funciona11111?");
+            //System.out.println("");
+            
+//            for(int i = 0;i<matriz2.length;i++){
+//                for(int j = 0;j<matriz2[0].length;j++){
+//                    System.out.print(""+matriz2[i][j]+",");
+//                }
+//                System.out.println("");
+//            }
+            
+//            System.out.println(""+matriz2.length);
+//            System.out.println(""+matriz2[0].length+"a");
+
+            //System.out.println("");
             planificador.meterDatos(posFila, posColumna, matrizRetorno);
+            //System.out.println("Funciona222222?");
         } catch (Exception e) {
             System.out.println("" + e);
         }

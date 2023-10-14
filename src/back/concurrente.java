@@ -20,7 +20,7 @@ public class concurrente {
 
     
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         MatrizConcurrente objeto = new MatrizConcurrente();
         int filas1;
         int columnas1;
@@ -80,20 +80,20 @@ public class concurrente {
             }
         }
         //MOSTRAR LAS MATRICES CREADAS ------ NO RECOMENDABLE DESPUES DE UNA MATRIZ DE 100 X 100, EN SERIO... -------------------
-        for (int i = 0; i < filas1; i++) {
-            for (int j = 0; j < columnas1; j++) {
-                System.out.print(matriz1[i][j] + ",");
-            }
-            System.out.println("");
-        }
-        
-        System.out.println("");
-        for (int i = 0; i < filas2; i++) {
-            for (int j = 0; j < columnas2; j++) {
-                System.out.print(matriz2[i][j] + ",");
-            }
-            System.out.println("");
-        }
+//        for (int i = 0; i < filas1; i++) {
+//            for (int j = 0; j < columnas1; j++) {
+//                System.out.print(matriz1[i][j] + ",");
+//            }
+//            System.out.println("");
+//        }
+//        
+//        System.out.println("");
+//        for (int i = 0; i < filas2; i++) {
+//            for (int j = 0; j < columnas2; j++) {
+//                System.out.print(matriz2[i][j] + ",");
+//            }
+//            System.out.println("");
+//        }
 
         System.out.println("Calculando");
         
@@ -101,57 +101,84 @@ public class concurrente {
         
         objeto.calcularFilasColumnas(filas1, columnas2);
         
+        int [] [] columnasTemp;
+        //columnasTemp = conseguirColumnas(matriz2, matriz2.);
         for(int i = 0;i<filas1;){
             for(int j = 0;j<columnas2;){
                 int [] [] filasTemp;
-                int [] [] columnasTemp;
-                filasTemp = conseguirFilas(matriz1, i, columnas1,10);
-                columnasTemp = conseguirColumnas(matriz2, j, filas2,10);
                 
-                for(int a = 0;a<10;a++){
-                    for(int b = 0;b<10;b++){
-                        System.out.print(""+filasTemp[a][b]+",");
-                    }
-                    System.out.println("");
+                int sizeFilas = 10;
+                int sizeColumnas = 10;
+                if(j+10 > columnas2){
+                    sizeColumnas = columnas2-j;
                 }
-                System.out.println("");
-                
-                for(int a = 0;a<10;a++){
-                    for(int b = 0;b<10;b++){
-                        System.out.print(""+columnasTemp[a][b]+",");
-                    }
-                    System.out.println("");
+                if(i+10 > filas1){
+                    sizeFilas = filas1- i;
                 }
-                System.out.println("");
                 
-                HilosMultiplicar hilo = new HilosMultiplicar(filasTemp,columnasTemp,i,j,objeto);
+                filasTemp = conseguirFilas(matriz1, i, sizeFilas,columnas1);
+                
+                
+//                for(int a = 0;a<10;a++){
+//                    for(int b = 0;b<10;b++){
+//                        System.out.print(""+filasTemp[a][b]+",");
+//                    }
+//                    System.out.println("");
+//                }
+//                System.out.println("");
+//                
+//                for(int a = 0;a<10;a++){
+//                    for(int b = 0;b<10;b++){
+//                        System.out.print(""+columnasTemp[a][b]+",");
+//                    }
+//                    System.out.println("");
+//                }
+//                System.out.println("");
+                
+                HilosMultiplicar hilo = new HilosMultiplicar(filasTemp,matriz2,i,objeto);
                 //hilo.recibirDatos(filaTemp, columnaTemp, i, j);
                 executor.execute(hilo);
                 j += 10;
+                i +=10;
             }
-            i +=10;
+            
         }
         executor.shutdown();
         
+        System.out.println("");
         int matrizResultado[][] = new int[objeto.getFilas()][objeto.getColumnas()];
 
         
         
         matrizResultado = objeto.recibirMatriz();
-
+        
+        //System.out.println(""+matrizResultado[0][0]);
+        
+        //SLEEP SUMAMENTE IMPORTANTE PARA QUE NO SE COMA NUMEROS PONIENDOLOS COMO 0s
+        
+        Thread.sleep(10000);
+        
         for (int i = 0; i < objeto.getFilas(); i++) {
             for (int j = 0; j < objeto.getColumnas(); j++) {
                 System.out.print(matrizResultado[i][j] + ",");
             }
             System.out.println("");
         }
-
         
         
+//        System.out.println("");
+//        System.out.println("");
+//        System.out.println("");
+//        for (int i = 0; i < objeto.getFilas(); i++) {
+//            for (int j = 0; j < objeto.getColumnas(); j++) {
+//                System.out.print(matrizResultado[i][j] + ",");
+//            }
+//            System.out.println("");
+//        }
     }
 
     
-    
+    //HACERLOS 10 X N MEJOR, PARA QUE NO SE SEPAREN LAS MATRICES
     
     public static int [] [] conseguirFilas(int[][] matrizTemp,int posicionFila, int sizeFilas, int sizeColumnas){
         int [] [] arreglo = new int [sizeFilas][sizeColumnas];
@@ -165,8 +192,8 @@ public class concurrente {
         return arreglo;
     }
     
-    public static int [] [] conseguirColumnas(int[][] matrizTemp,int posicionColumna, int sizeColumnas, int sizeFilas){
-        int [] [] arreglo = new int [sizeColumnas][sizeFilas];
+    public static int [][] conseguirColumnas(int[][] matrizTemp,int posicionColumna, int sizeColumnas, int sizeFilas){
+        int [][] arreglo = new int [sizeColumnas][sizeFilas];
         
         for(int i = 0;i<sizeColumnas;i++){
             for(int j = 0;j<sizeFilas;j++){

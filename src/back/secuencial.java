@@ -83,6 +83,7 @@ public class secuencial {
 //        }
 //        
 //        System.out.println("");
+//                
 //        for (int i = 0; i < filas2; i++) {
 //            for (int j = 0; j < columnas2; j++) {
 //                System.out.print(matriz2[i][j] + ",");
