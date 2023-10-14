@@ -8,7 +8,7 @@ package back;
  *
  * @author PC
  */
-public class Matriz {
+public class MatrizSecuencial {
     
     private int filas;
     private int columnas;
@@ -32,12 +32,10 @@ public class Matriz {
         return matrizRetorno;
     }
     
-    public void calcularFilasColumnas(int filas1, int columnas2){
+    public void calcularFilasColumnas(int filas1, int columnas2) {
         setFilas(filas1);
         setColumnas(columnas2);
     }
-    
-    
 
     public int getFilas() {
         return filas;
