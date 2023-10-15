@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -144,6 +145,7 @@ public class concurrente {
             
         }
         executor.shutdown();
+        executor.awaitTermination(100, TimeUnit.MINUTES);
         
         System.out.println("");
         int matrizResultado[][] = new int[objeto.getFilas()][objeto.getColumnas()];
@@ -156,7 +158,7 @@ public class concurrente {
         
         //SLEEP SUMAMENTE IMPORTANTE PARA QUE NO SE COMA NUMEROS PONIENDOLOS COMO 0s
         
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
         
         for (int i = 0; i < objeto.getFilas(); i++) {
             for (int j = 0; j < objeto.getColumnas(); j++) {
