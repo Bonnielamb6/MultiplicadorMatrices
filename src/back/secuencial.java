@@ -16,49 +16,41 @@ public class secuencial {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        MatrizSecuencial objeto = new MatrizSecuencial();
+    MatrizSecuencial objeto = new MatrizSecuencial();
         int filas1;
         int columnas1;
         int filas2;
         int columnas2;
-        Scanner scanner = new Scanner(System.in);
-        //PARA IMPLEMENTAR DESPUES CON DINAMISMO
-
-        
-        //--------------NO PONER MATRICES MAS GRANDES QUE 1500 X 1500, EN SERIO...--------------
-        System.out.println("Cuanta cantidad de filas quieres que tenga la primer matriz?");
-        filas1 = scanner.nextInt();
-        System.out.println("\nCuanta cantidad de columnas quieres que tenga la primer matriz?");
-        columnas1 = scanner.nextInt();
-        int matriz1[][] = new int[filas1][columnas1];
-
-        System.out.println("Cuanta cantidad de filas quieres que tenga la segunda matriz?");
-        filas2 = scanner.nextInt();
-        System.out.println("\nCuanta cantidad de columnas quieres que tenga la segunda matriz?");
-        columnas2 = scanner.nextInt();
-
-        int matriz2[][] = new int[filas2][columnas2];
-
-        objeto.calcularFilasColumnas(filas1, columnas2);
-
-        //PARA PROBAR QUE SIRVA EL ALGORITMO DE MULTIPLICAR MATRICES
-//        int [][] matriz1 = {
-//            {5,3,-4,-2},
-//            {8,-1,0,-3}
-//        };
-//        
-//        int [][] matriz2 = {
-//            {1,4,0},
-//            {-5,3,7},
-//            {0,-9,5},
-//            {5,1,4}
-//        };
-//        objeto.calcularFilasColumnas(2, 3);
-        long semilla = 12345L; // Cambia esta semilla si deseas obtener diferentes números aleatorios
+        int matriz1[][];
+        int matriz2[][];
+        int matrizResultado[][];
+        long semilla = 12345L; 
         int min = -9;
         int max = 9;
 
+    public secuencial() {
+        filas1 = 0;
+        filas2 = 0;
+        columnas1 = 0;
+        columnas2 = 0;
+    }
+        
+        
+        
+    public secuencial(int filas1, int columnas1, int filas2, int columnas2) {
+        this.filas1 = filas1;
+        this.columnas1 = columnas1;
+        this.filas2 = filas2;
+        this.columnas2 = columnas2;
+    }
+        
+        
+    public void inicializar(){
+        matriz1 = new int[filas1][columnas1];
+        matriz2 = new int [filas2][columnas2];
+        
+        objeto.calcularFilasColumnas(filas1, columnas2);
+        
         Random rand = new Random(semilla);
 
         for (int i = 0; i < filas1; i++) {
@@ -74,35 +66,77 @@ public class secuencial {
                 matriz2[i][j] = numeroAleatorio;
             }
         }
-        //MOSTRAR LAS MATRICES CREADAS ------ NO RECOMENDABLE DESPUES DE UNA MATRIZ DE 100 X 100, EN SERIO... -------------------
-//        for (int i = 0; i < filas1; i++) {
-//            for (int j = 0; j < columnas1; j++) {
-//                System.out.print(matriz1[i][j] + ",");
-//            }
-//            System.out.println("");
-//        }
-//        
-//        System.out.println("");
-//                
-//        for (int i = 0; i < filas2; i++) {
-//            for (int j = 0; j < columnas2; j++) {
-//                System.out.print(matriz2[i][j] + ",");
-//            }
-//            System.out.println("");
-//        }
-
-        System.out.println("");
-        int matrizResultado[][] = new int[objeto.getFilas()][objeto.getColumnas()];
-
-        matrizResultado = objeto.multiplicar(filas1, columnas1, filas2, columnas2, matriz1, matriz2);
-
-        for (int i = 0; i < objeto.getFilas(); i++) {
-            for (int j = 0; j < objeto.getColumnas(); j++) {
-                System.out.print(matrizResultado[i][j] + ",");
-            }
-            System.out.println("");
-        }
-
     }
+    
+    public void correr(){
+        matrizResultado = objeto.multiplicar(filas1, columnas1, filas2, columnas2, matriz1, matriz2);
+    }
+
+    public void setFilas1(int filas1) {
+        this.filas1 = filas1;
+    }
+
+    public void setColumnas1(int columnas1) {
+        this.columnas1 = columnas1;
+    }
+
+    public void setFilas2(int filas2) {
+        this.filas2 = filas2;
+    }
+
+    public void setColumnas2(int columnas2) {
+        this.columnas2 = columnas2;
+    }
+
+    public void setSemilla(long semilla) {
+        this.semilla = semilla;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    public MatrizSecuencial getObjeto() {
+        return objeto;
+    }
+
+    public int getColumnas1() {
+        return columnas1;
+    }
+
+    public int getFilas2() {
+        return filas2;
+    }
+
+    public int getColumnas2() {
+        return columnas2;
+    }
+
+    public int[][] getMatriz1() {
+        return matriz1;
+    }
+
+    public int[][] getMatriz2() {
+        return matriz2;
+    }
+
+    public int[][] getMatrizResultado() {
+        return matrizResultado;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public int getMax() {
+        return max;
+    }
+    
+    
+    
 
 }
