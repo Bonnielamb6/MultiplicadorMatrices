@@ -27,6 +27,7 @@ public class concurrente {
         int columnas1;
         int filas2;
         int columnas2;
+        int saltos =1000;
         Scanner scanner = new Scanner(System.in);
         
         
@@ -108,12 +109,12 @@ public class concurrente {
             for(int j = 0;j<columnas2;){
                 int [] [] filasTemp;
                 
-                int sizeFilas = 10;
-                int sizeColumnas = 10;
-                if(j+10 > columnas2){
+                int sizeFilas = saltos;
+                int sizeColumnas = saltos;
+                if(j+saltos > columnas2){
                     sizeColumnas = columnas2-j;
                 }
-                if(i+10 > filas1){
+                if(i+saltos > filas1){
                     sizeFilas = filas1- i;
                 }
                 
@@ -139,8 +140,8 @@ public class concurrente {
                 HilosMultiplicar hilo = new HilosMultiplicar(filasTemp,matriz2,i,objeto);
                 //hilo.recibirDatos(filaTemp, columnaTemp, i, j);
                 executor.execute(hilo);
-                j += 10;
-                i +=10;
+                j += saltos;
+                i +=saltos;
             }
             
         }
