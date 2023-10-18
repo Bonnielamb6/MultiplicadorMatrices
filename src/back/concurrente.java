@@ -31,6 +31,15 @@ public class concurrente {
     int matriz1[][];
     int matriz2[][];
     int matrizResultado[][];
+    
+    public concurrente (){
+        filas1 = 0;
+        filas2 = 0;
+        columnas1 = 0;
+        columnas2 = 0;
+        saltos = 0;
+    }
+    
     public concurrente(int filas1, int columnas1, int filas2, int columnas2, int saltos) {
         this.filas1 = filas1;
         this.columnas1 = columnas1;
@@ -94,79 +103,7 @@ public class concurrente {
         matrizResultado = objeto.recibirMatriz();
     }
 
-    //public static void main(String[] args) throws InterruptedException {
-
-        //Scanner scanner = new Scanner(System.in);
-
-        //PARA IMPLEMENTAR DESPUES CON DINAMISMO
-        //--------------NO PONER MATRICES MAS GRANDES QUE 1500 X 1500, EN SERIO... (ahora si ya se puede :b)--------------
-        //esto es para el main
-//        System.out.println("Cuanta cantidad de filas quieres que tenga la primer matriz?");
-//        filas1 = scanner.nextInt();
-//        System.out.println("\nCuanta cantidad de columnas quieres que tenga la primer matriz?");
-//        columnas1 = scanner.nextInt();
-//        int matriz1[][] = new int[filas1][columnas1];
-//
-//        System.out.println("Cuanta cantidad de filas quieres que tenga la segunda matriz?");
-//        filas2 = scanner.nextInt();
-//        System.out.println("\nCuanta cantidad de columnas quieres que tenga la segunda matriz?");
-//        columnas2 = scanner.nextInt();
-        //PARA PROBAR QUE SIRVA EL ALGORITMO DE MULTIPLICAR MATRICES
-//        int [][] matriz1 = {
-//            {5,3,-4,-2},
-//            {8,-1,0,-3}
-//        };
-//        
-//        int [][] matriz2 = {
-//            {1,4,0},
-//            {-5,3,7},
-//            {0,-9,5},
-//            {5,1,4}
-//        };
-//        objeto.calcularFilasColumnas(2, 3);
-        //MOSTRAR LAS MATRICES CREADAS ------ NO RECOMENDABLE DESPUES DE UNA MATRIZ DE 100 X 100, EN SERIO... -------------------
-//        for (int i = 0; i < filas1; i++) {
-//            for (int j = 0; j < columnas1; j++) {
-//                System.out.print(matriz1[i][j] + ",");
-//            }
-//            System.out.println("");
-//        }
-//        
-//        System.out.println("");
-//        for (int i = 0; i < filas2; i++) {
-//            for (int j = 0; j < columnas2; j++) {
-//                System.out.print(matriz2[i][j] + ",");
-//            }
-//            System.out.println("");
-//        }
-        //System.out.println("Calculando");
-
-        
-        //System.out.println("");
-        //int matrizResultado[][] = new int[objeto.getFilas()][objeto.getColumnas()];
-
-        
-
-        //System.out.println(""+matrizResultado[0][0]);
-        //SLEEP SUMAMENTE IMPORTANTE PARA QUE NO SE COMA NUMEROS PONIENDOLOS COMO 0s
-        //Thread.sleep(10000);
-//        for (int i = 0; i < objeto.getFilas(); i++) {
-//            for (int j = 0; j < objeto.getColumnas(); j++) {
-//                System.out.print(matrizResultado[i][j] + ",");
-//            }
-//            System.out.println("");
-//        }
-
-//        System.out.println("");
-//        System.out.println("");
-//        System.out.println("");
-//        for (int i = 0; i < objeto.getFilas(); i++) {
-//            for (int j = 0; j < objeto.getColumnas(); j++) {
-//                System.out.print(matrizResultado[i][j] + ",");
-//            }
-//            System.out.println("");
-//        }
-    //}
+    
 
     //HACERLOS 10 X N MEJOR, PARA QUE NO SE SEPAREN LAS MATRICES
     public static int[][] conseguirFilas(int[][] matrizTemp, int posicionFila, int sizeFilas, int sizeColumnas) {
@@ -193,4 +130,70 @@ public class concurrente {
         return arreglo;
     }
 
+    public int getFilas1() {
+        return filas1;
+    }
+
+    public void setFilas1(int filas1) {
+        this.filas1 = filas1;
+    }
+
+    public int getColumnas1() {
+        return columnas1;
+    }
+
+    public void setColumnas1(int columnas1) {
+        this.columnas1 = columnas1;
+    }
+
+    public int getFilas2() {
+        return filas2;
+    }
+
+    public void setFilas2(int filas2) {
+        this.filas2 = filas2;
+    }
+
+    public int getColumnas2() {
+        return columnas2;
+    }
+
+    public void setColumnas2(int columnas2) {
+        this.columnas2 = columnas2;
+    }
+
+    public int getSaltos() {
+        return saltos;
+    }
+
+    public void setSaltos(int saltos) {
+        this.saltos = saltos;
+    }
+
+    public long getSemilla() {
+        return semilla;
+    }
+
+    public void setSemilla(long semilla) {
+        this.semilla = semilla;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    
+    
 }
