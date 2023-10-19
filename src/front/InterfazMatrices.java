@@ -4,6 +4,8 @@
  */
 package front;
 
+import java.awt.Color;
+
 /**
  *
  * @author User
@@ -15,6 +17,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
      */
     public InterfazMatrices() {
         initComponents();
+        
     }
 
     /**
@@ -26,18 +29,64 @@ public class InterfazMatrices extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        lblTitulo = new javax.swing.JLabel();
+        txtFilas1 = new javax.swing.JTextField();
+        txtColumnas1 = new javax.swing.JTextField();
+        lblFilas1 = new javax.swing.JLabel();
+        lblColumnas1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txtFilas2 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtColumnas2 = new javax.swing.JTextField();
+        btnSecuencial = new javax.swing.JButton();
+        btnConcurrente = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(153, 204, 255));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setForeground(new java.awt.Color(153, 204, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblTitulo.setBackground(new java.awt.Color(153, 153, 255));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("MULTIPLICADOR DE MATRICES");
+        lblTitulo.setFocusable(false);
+        lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1230, 41));
+
+        txtFilas1.setPreferredSize(new java.awt.Dimension(100, 22));
+        jPanel1.add(txtFilas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, -1, -1));
+
+        txtColumnas1.setPreferredSize(new java.awt.Dimension(100, 22));
+        jPanel1.add(txtColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, -1, -1));
+
+        lblFilas1.setText("Cantidad de filas de matriz 1");
+        jPanel1.add(lblFilas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, -1, -1));
+
+        lblColumnas1.setText("Cantidad de columnas de matriz 1");
+        jPanel1.add(lblColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, -1, -1));
+
+        jLabel1.setText("Cantidad de filas matriz 2");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 60, -1, -1));
+
+        txtFilas2.setPreferredSize(new java.awt.Dimension(100, 22));
+        jPanel1.add(txtFilas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 90, -1, -1));
+
+        jLabel2.setText("Cantidad de columnas matriz 2");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, -1, -1));
+
+        txtColumnas2.setPreferredSize(new java.awt.Dimension(100, 22));
+        jPanel1.add(txtColumnas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 90, -1, -1));
+
+        btnSecuencial.setText("Secuencial");
+        jPanel1.add(btnSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 130, 40));
+
+        btnConcurrente.setText("Concurrente");
+        jPanel1.add(btnConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 310, 130, 40));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, 780));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -78,5 +127,17 @@ public class InterfazMatrices extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConcurrente;
+    private javax.swing.JButton btnSecuencial;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblColumnas1;
+    private javax.swing.JLabel lblFilas1;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTextField txtColumnas1;
+    private javax.swing.JTextField txtColumnas2;
+    private javax.swing.JTextField txtFilas1;
+    private javax.swing.JTextField txtFilas2;
     // End of variables declaration//GEN-END:variables
 }
