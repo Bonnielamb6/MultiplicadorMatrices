@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -94,6 +95,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
         btnCambiarTiempo = new javax.swing.JButton();
         lblProgresoConcurrente = new javax.swing.JLabel();
         lblProgresoSecuencial = new javax.swing.JLabel();
+        lblSecuencialEstado = new javax.swing.JLabel();
+        lblConcurrenteEstado = new javax.swing.JLabel();
         ImagenFondo = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
@@ -274,7 +277,13 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblProgresoSecuencial.setOpaque(true);
         jPanel1.add(lblProgresoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 450, -1, -1));
 
-        ImagenFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/front/mikuFondo.jpeg"))); // NOI18N
+        lblSecuencialEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuEsperando.gif"))); // NOI18N
+        jPanel1.add(lblSecuencialEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 490, 130, 110));
+
+        lblConcurrenteEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuEsperando.gif"))); // NOI18N
+        jPanel1.add(lblConcurrenteEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 490, -1, -1));
+
+        ImagenFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuFondo.jpeg"))); // NOI18N
         jPanel1.add(ImagenFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 670));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, 670));
@@ -287,6 +296,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
             lblProgresoSecuencial.setText("En ejecucion...");
             lblProgresoSecuencial.setBackground(Color.red);
+            ImageIcon icono = new ImageIcon(getClass().getResource("/img/mikuPensando.gif"));
+            lblSecuencialEstado.setIcon(icono);
             objetoSecuencial.setFilas1(Integer.parseInt(txtFilas1.getText()));
             objetoSecuencial.setFilas2(Integer.parseInt(txtFilas2.getText()));
             objetoSecuencial.setColumnas1(Integer.parseInt(txtColumnas1.getText()));
@@ -309,6 +320,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
             if ((!txtSaltos.getText().isBlank() && isNumber(txtSaltos.getText())) && (!txtHilos.getText().isBlank() && isNumber(txtHilos.getText()))) {
                 lblProgresoConcurrente.setText("En ejecucion...");
                 lblProgresoConcurrente.setBackground(Color.red);
+                ImageIcon icono = new ImageIcon(getClass().getResource("/img/mikuPensando.gif"));
+                lblConcurrenteEstado.setIcon(icono);
                 objetoConcurrente.setFilas1(Integer.parseInt(txtFilas1.getText()));
                 objetoConcurrente.setFilas2(Integer.parseInt(txtFilas2.getText()));
                 objetoConcurrente.setColumnas1(Integer.parseInt(txtColumnas1.getText()));
@@ -453,6 +466,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 }
                 lblProgresoConcurrente.setText("Finalizado");
                 lblProgresoConcurrente.setBackground(Color.GREEN);
+                ImageIcon icono = new ImageIcon(getClass().getResource("/img/mikuEsperando.gif"));
+                lblConcurrenteEstado.setIcon(icono);
                 break;
             }
         });
@@ -482,6 +497,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 }
                 lblProgresoSecuencial.setText("Finalizado");
                 lblProgresoSecuencial.setBackground(Color.GREEN);
+                ImageIcon icono = new ImageIcon(getClass().getResource("/img/mikuEsperando.gif"));
+                lblSecuencialEstado.setIcon(icono);
                 break;
             }
         });
@@ -591,6 +608,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblColumnas1;
     private javax.swing.JLabel lblColumnas2;
+    private javax.swing.JLabel lblConcurrenteEstado;
     private javax.swing.JLabel lblFilas1;
     private javax.swing.JLabel lblFilas2;
     private javax.swing.JLabel lblHilos;
@@ -599,6 +617,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JLabel lblProgresoConcurrente;
     private javax.swing.JLabel lblProgresoSecuencial;
     private javax.swing.JLabel lblSaltos;
+    private javax.swing.JLabel lblSecuencialEstado;
     private javax.swing.JLabel lblTextoConcurrente;
     private javax.swing.JLabel lblTextoSecuencial;
     private javax.swing.JLabel lblTiempoConcurrente;
