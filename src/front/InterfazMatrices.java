@@ -359,7 +359,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Hubo un problema al intentar correr los hilos");
                 }
                 matrizResultadoConcurrente = objetoConcurrente.getMatrizResultado();
-                
+
                 try {
                     archivoConcurrente = new File("archivoConcurrente.txt");
                     escribirArchivo(archivoConcurrente, matriz1, matriz2, matrizResultadoConcurrente);
@@ -370,7 +370,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 break;
             }
         });
@@ -409,37 +409,49 @@ public class InterfazMatrices extends javax.swing.JFrame {
         try {
             FileWriter escritura = new FileWriter(archivoTemp);
             escritura.write("Matriz 1\n");
+
             for (int i = 0; i < matriz1Temp.length; i++) {
                 escritura.write("[");
                 for (int j = 0; j < matriz1Temp[0].length; j++) {
                     escritura.write("" + matriz1Temp[i][j] + ",");
+
                 }
                 escritura.write("]\n");
+
             }
             escritura.write("\n\n\n\n");
 
             escritura.write("Matriz 2\n");
+
             for (int i = 0; i < matriz2Temp.length; i++) {
                 escritura.write("[");
                 for (int j = 0; j < matriz2Temp[0].length; j++) {
                     escritura.write("" + matriz2Temp[i][j] + ",");
+
                 }
                 escritura.write("]\n");
+
             }
             escritura.write("\n\n\n\n");
 
             escritura.write("Matriz resultante\n");
+
             for (int i = 0; i < matrizResultadoTemp.length; i++) {
                 escritura.write("[");
                 for (int j = 0; j < matrizResultadoTemp[0].length; j++) {
                     escritura.write("" + matrizResultadoTemp[i][j] + ",");
+
                 }
                 escritura.write("]\n");
+
             }
             escritura.write("\n\n\n\n");
+
+            escritura.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error" + e);
         }
+
     }
 
     private void borrarArchivo(File archivoTemp) {
