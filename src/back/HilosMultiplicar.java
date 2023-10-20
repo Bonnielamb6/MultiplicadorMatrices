@@ -54,8 +54,8 @@ public class HilosMultiplicar implements Runnable {
                 }
                 
             }
-            System.out.println("" + matrizRetorno.length +"," + matrizRetorno[0].length);
-            System.out.println("" + matriz2.length + "," + matriz2[0].length);
+            //System.out.println("" + matrizRetorno.length +"," + matrizRetorno[0].length);
+            //System.out.println("" + matriz2.length + "," + matriz2[0].length);
             //System.out.println("Funciona11111?");
             //System.out.println("");
             

@@ -83,7 +83,7 @@ public class concurrente {
                 i += saltos;
                 progreso = 50;
             }
-
+            progreso = 100;
         }
         executor.shutdown();
         executor.awaitTermination(100, TimeUnit.MINUTES);
