@@ -7,6 +7,9 @@ package front;
 import java.awt.Color;
 import back.concurrente;
 import back.secuencial;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +38,13 @@ public class InterfazMatrices extends javax.swing.JFrame {
     double tiempoSegundosConcurrente = 0;
     double tiempoMinutosConcurrente = 0;
     int estadoTiempos = 0;
+
+    File archivoSecuencial;
+    File archivoConcurrente;
+
+    int matrizResultadoSecuencial[][];
+    int matrizResultadoConcurrente[][];
+
     /**
      *
      * Creates new form InterfazMatrices
@@ -241,6 +251,11 @@ public class InterfazMatrices extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConcurrenteActionPerformed
 
     private void btnGenerarMatricesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarMatricesActionPerformed
+        if (matriz1 != null) {
+            matriz1 = null;
+            matriz2 = null;
+        }
+
         if (verificarDatos()) {
             max = (int) spnMax.getValue();
             min = (int) spnMin.getValue();
@@ -266,32 +281,33 @@ public class InterfazMatrices extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debes llenar todos los campos y con numeritos porfa");
         }
 
+
     }//GEN-LAST:event_btnGenerarMatricesActionPerformed
 
     private void btnCambiarTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarTiempoActionPerformed
         // TODO add your handling code here:
-        if(estadoTiempos == 0) {
-            lblTiempoSecuencial.setText(""+tiempoSegundosSecuencial);
-            lblTiempoConcurrente.setText(""+tiempoSegundosConcurrente);
+        if (estadoTiempos == 0) {
+            lblTiempoSecuencial.setText("" + tiempoSegundosSecuencial);
+            lblTiempoConcurrente.setText("" + tiempoSegundosConcurrente);
             lblTextoSecuencial.setText("Tiempo en segundos");
             lblTextoConcurrente.setText("Tiempo en segundos");
-            estadoTiempos =1;
-            
-        }else if(estadoTiempos == 1){
-            lblTiempoSecuencial.setText(""+tiempoMinutosSecuencial);
-            lblTiempoConcurrente.setText(""+tiempoMinutosConcurrente);
+            estadoTiempos = 1;
+
+        } else if (estadoTiempos == 1) {
+            lblTiempoSecuencial.setText("" + tiempoMinutosSecuencial);
+            lblTiempoConcurrente.setText("" + tiempoMinutosConcurrente);
             lblTextoSecuencial.setText("Tiempo en Minutos");
             lblTextoConcurrente.setText("Tiempo en Minutos");
-            estadoTiempos =2;
-        }else if(estadoTiempos == 2){
-            lblTiempoSecuencial.setText(""+tiempoMilisegundosSecuencial);
-            lblTiempoConcurrente.setText(""+tiempoMilisegundosConcurrente);
+            estadoTiempos = 2;
+        } else if (estadoTiempos == 2) {
+            lblTiempoSecuencial.setText("" + tiempoMilisegundosSecuencial);
+            lblTiempoConcurrente.setText("" + tiempoMilisegundosConcurrente);
             lblTextoSecuencial.setText("Tiempo en Milisegundos");
             lblTextoConcurrente.setText("Tiempo en Milisegundos");
-            estadoTiempos =0;
+            estadoTiempos = 0;
         }
-        
-        
+
+
     }//GEN-LAST:event_btnCambiarTiempoActionPerformed
 
     private boolean verificarDatos() {
@@ -342,7 +358,19 @@ public class InterfazMatrices extends javax.swing.JFrame {
                     Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(null, "Hubo un problema al intentar correr los hilos");
                 }
+                matrizResultadoConcurrente = objetoConcurrente.getMatrizResultado();
+                
+                try {
+                    archivoConcurrente = new File("archivoConcurrente.txt");
+                    escribirArchivo(archivoConcurrente, matriz1, matriz2, matrizResultadoConcurrente);
+                    if (archivoConcurrente.createNewFile()) {
+                        JOptionPane.showMessageDialog(null, "Archivo creado");
+                    }
 
+                } catch (IOException ex) {
+                    Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 break;
             }
         });
@@ -359,10 +387,67 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 tiempoMilisegundosSecuencial = objetoSecuencial.getTiempo();
                 tiempoSegundosSecuencial = tiempoMilisegundosSecuencial / 1000;
                 tiempoMinutosSecuencial = tiempoSegundosSecuencial / 60;
+                matrizResultadoSecuencial = objetoSecuencial.getMatrizResultado();
+                try {
+                    archivoSecuencial = new File("archivoSecuencial.txt");
+                    escribirArchivo(archivoSecuencial, matriz1, matriz2, matrizResultadoSecuencial);
+                    if (archivoSecuencial.createNewFile()) {
+                        JOptionPane.showMessageDialog(null, "Archivo creado");
+                    }
+
+                } catch (IOException ex) {
+                    Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             }
         });
         hilo.start();
+
+    }
+
+    private void escribirArchivo(File archivoTemp, int[][] matriz1Temp, int[][] matriz2Temp, int[][] matrizResultadoTemp) {
+        try {
+            FileWriter escritura = new FileWriter(archivoTemp);
+            escritura.write("Matriz 1\n");
+            for (int i = 0; i < matriz1Temp.length; i++) {
+                escritura.write("[");
+                for (int j = 0; j < matriz1Temp[0].length; j++) {
+                    escritura.write("" + matriz1Temp[i][j] + ",");
+                }
+                escritura.write("]\n");
+            }
+            escritura.write("\n\n\n\n");
+
+            escritura.write("Matriz 2\n");
+            for (int i = 0; i < matriz2Temp.length; i++) {
+                escritura.write("[");
+                for (int j = 0; j < matriz2Temp[0].length; j++) {
+                    escritura.write("" + matriz2Temp[i][j] + ",");
+                }
+                escritura.write("]\n");
+            }
+            escritura.write("\n\n\n\n");
+
+            escritura.write("Matriz resultante\n");
+            for (int i = 0; i < matrizResultadoTemp.length; i++) {
+                escritura.write("[");
+                for (int j = 0; j < matrizResultadoTemp[0].length; j++) {
+                    escritura.write("" + matrizResultadoTemp[i][j] + ",");
+                }
+                escritura.write("]\n");
+            }
+            escritura.write("\n\n\n\n");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Hubo un error" + e);
+        }
+    }
+
+    private void borrarArchivo(File archivoTemp) {
+        try {
+            archivoTemp.delete();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Hubo un problema al intentar borrar el archivo");
+        }
     }
 
     /**

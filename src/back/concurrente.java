@@ -220,6 +220,10 @@ public class concurrente {
     public void setMatriz2(int[][] matriz2) {
         this.matriz2 = matriz2;
     }
+
+    public int[][] getMatrizResultado() {
+        return matrizResultado;
+    }
     
     
 }
