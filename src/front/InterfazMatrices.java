@@ -92,6 +92,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblTextoConcurrente = new javax.swing.JLabel();
         lblTextoSecuencial = new javax.swing.JLabel();
         btnCambiarTiempo = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 204, 255));
@@ -105,6 +106,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblTitulo.setText("MULTIPLICADOR DE MATRICES");
         lblTitulo.setFocusable(false);
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setOpaque(true);
         jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1230, 41));
 
         txtFilas1.setPreferredSize(new java.awt.Dimension(100, 22));
@@ -114,18 +116,22 @@ public class InterfazMatrices extends javax.swing.JFrame {
         jPanel1.add(txtColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, -1, -1));
 
         lblFilas1.setText("Cantidad de filas de matriz 1");
+        lblFilas1.setOpaque(true);
         jPanel1.add(lblFilas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, -1, -1));
 
         lblColumnas1.setText("Cantidad de columnas de matriz 1");
+        lblColumnas1.setOpaque(true);
         jPanel1.add(lblColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, -1, -1));
 
         lblFilas2.setText("Cantidad de filas matriz 2");
+        lblFilas2.setOpaque(true);
         jPanel1.add(lblFilas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 60, -1, -1));
 
         txtFilas2.setPreferredSize(new java.awt.Dimension(100, 22));
         jPanel1.add(txtFilas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 90, -1, -1));
 
         lblColumnas2.setText("Cantidad de columnas matriz 2");
+        lblColumnas2.setOpaque(true);
         jPanel1.add(lblColumnas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, -1, -1));
 
         txtColumnas2.setPreferredSize(new java.awt.Dimension(100, 22));
@@ -155,18 +161,22 @@ public class InterfazMatrices extends javax.swing.JFrame {
         jPanel1.add(txtSaltos, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 180, -1, -1));
 
         lblSaltos.setText("De a cuanto quieres que sean los saltos de cada hilo?");
+        lblSaltos.setOpaque(true);
         jPanel1.add(lblSaltos, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 140, -1, -1));
 
         lblHilos.setText("Cuantos hilos quieres  que esten corriendo?");
+        lblHilos.setOpaque(true);
         jPanel1.add(lblHilos, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 230, -1, -1));
 
         txtHilos.setPreferredSize(new java.awt.Dimension(100, 22));
         jPanel1.add(txtHilos, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 290, -1, -1));
 
         lblTiempoSecuencial.setText("0");
+        lblTiempoSecuencial.setOpaque(true);
         jPanel1.add(lblTiempoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 420, -1, -1));
 
         lblTiempoConcurrente.setText("0");
+        lblTiempoConcurrente.setOpaque(true);
         jPanel1.add(lblTiempoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 430, -1, -1));
 
         btnGenerarMatrices.setText("Generar Matrices");
@@ -178,21 +188,25 @@ public class InterfazMatrices extends javax.swing.JFrame {
         jPanel1.add(btnGenerarMatrices, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 150, 40));
 
         spnMax.setPreferredSize(new java.awt.Dimension(100, 22));
-        jPanel1.add(spnMax, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+        jPanel1.add(spnMax, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         spnMin.setPreferredSize(new java.awt.Dimension(100, 22));
-        jPanel1.add(spnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+        jPanel1.add(spnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
 
         lblMax.setText("Numero maximo en matriz");
-        jPanel1.add(lblMax, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        lblMax.setOpaque(true);
+        jPanel1.add(lblMax, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         lblMin.setText("Numero minimo en matriz");
-        jPanel1.add(lblMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+        lblMin.setOpaque(true);
+        jPanel1.add(lblMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         lblTextoConcurrente.setText("Tiempo en milisegundos");
+        lblTextoConcurrente.setOpaque(true);
         jPanel1.add(lblTextoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 390, -1, -1));
 
         lblTextoSecuencial.setText("Tiempo en milisegundos");
+        lblTextoSecuencial.setOpaque(true);
         jPanel1.add(lblTextoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, -1, -1));
 
         btnCambiarTiempo.setText("Cambiar unidades de tiempo");
@@ -202,6 +216,9 @@ public class InterfazMatrices extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnCambiarTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 510, 190, 40));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/front/mikuFondo.jpeg"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 670));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, 670));
 
@@ -502,6 +519,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JButton btnConcurrente;
     private javax.swing.JButton btnGenerarMatrices;
     private javax.swing.JButton btnSecuencial;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblColumnas1;
     private javax.swing.JLabel lblColumnas2;
