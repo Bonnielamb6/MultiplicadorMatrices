@@ -27,6 +27,7 @@ public class secuencial {
         long semilla = 12345L; 
         int min = -9;
         int max = 9;
+        long tiempoEjecucion = 0;
 
     public secuencial() {
         filas1 = 0;
@@ -69,7 +70,10 @@ public class secuencial {
     }
     
     public void correr(){
+        long startTime = System.currentTimeMillis();
         matrizResultado = objeto.multiplicar(filas1, columnas1, filas2, columnas2, matriz1, matriz2);
+        long endTime = System.currentTimeMillis();
+        tiempoEjecucion = endTime - startTime;
     }
 
     public void setFilas1(int filas1) {
@@ -136,7 +140,9 @@ public class secuencial {
         return max;
     }
     
-    
+    public long getTiempo(){
+        return tiempoEjecucion;
+    }
     
 
 }

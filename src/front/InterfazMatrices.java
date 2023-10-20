@@ -5,17 +5,26 @@
 package front;
 
 import java.awt.Color;
+import back.concurrente;
+import back.secuencial;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author User
  */
 public class InterfazMatrices extends javax.swing.JFrame {
+    
+    secuencial objetoSecuencial = new secuencial();
+    concurrente objetoConcurrente = new concurrente();
 
     /**
      * Creates new form InterfazMatrices
      */
     public InterfazMatrices() {
+        
         initComponents();
         
     }
@@ -35,12 +44,19 @@ public class InterfazMatrices extends javax.swing.JFrame {
         txtColumnas1 = new javax.swing.JTextField();
         lblFilas1 = new javax.swing.JLabel();
         lblColumnas1 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblFilas2 = new javax.swing.JLabel();
         txtFilas2 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lblColumnas2 = new javax.swing.JLabel();
         txtColumnas2 = new javax.swing.JTextField();
         btnSecuencial = new javax.swing.JButton();
         btnConcurrente = new javax.swing.JButton();
+        lblProgreso = new javax.swing.JLabel();
+        txtSaltos = new javax.swing.JTextField();
+        lblSaltos = new javax.swing.JLabel();
+        lblHilos = new javax.swing.JLabel();
+        txtHilos = new javax.swing.JTextField();
+        lblTiempoSecuencial = new javax.swing.JLabel();
+        lblTiempoConcurrente = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 204, 255));
@@ -68,28 +84,132 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblColumnas1.setText("Cantidad de columnas de matriz 1");
         jPanel1.add(lblColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, -1, -1));
 
-        jLabel1.setText("Cantidad de filas matriz 2");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 60, -1, -1));
+        lblFilas2.setText("Cantidad de filas matriz 2");
+        jPanel1.add(lblFilas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 60, -1, -1));
 
         txtFilas2.setPreferredSize(new java.awt.Dimension(100, 22));
         jPanel1.add(txtFilas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 90, -1, -1));
 
-        jLabel2.setText("Cantidad de columnas matriz 2");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, -1, -1));
+        lblColumnas2.setText("Cantidad de columnas matriz 2");
+        jPanel1.add(lblColumnas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, -1, -1));
 
         txtColumnas2.setPreferredSize(new java.awt.Dimension(100, 22));
         jPanel1.add(txtColumnas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 90, -1, -1));
 
         btnSecuencial.setText("Secuencial");
+        btnSecuencial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSecuencialActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 130, 40));
 
         btnConcurrente.setText("Concurrente");
-        jPanel1.add(btnConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 310, 130, 40));
+        btnConcurrente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConcurrenteActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 400, 130, 40));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, 780));
+        lblProgreso.setText("0");
+        jPanel1.add(lblProgreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 480, -1, -1));
+
+        txtSaltos.setMinimumSize(new java.awt.Dimension(100, 22));
+        txtSaltos.setPreferredSize(new java.awt.Dimension(100, 22));
+        jPanel1.add(txtSaltos, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 180, -1, -1));
+
+        lblSaltos.setText("De a cuanto quieres que sean los saltos de cada hilo?");
+        jPanel1.add(lblSaltos, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 140, -1, -1));
+
+        lblHilos.setText("Cuantos hilos quieres  que esten corriendo?");
+        jPanel1.add(lblHilos, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 230, -1, -1));
+
+        txtHilos.setPreferredSize(new java.awt.Dimension(100, 22));
+        jPanel1.add(txtHilos, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 290, -1, -1));
+
+        lblTiempoSecuencial.setText("0");
+        jPanel1.add(lblTiempoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 360, -1, -1));
+
+        lblTiempoConcurrente.setText("0");
+        jPanel1.add(lblTiempoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 360, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSecuencialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSecuencialActionPerformed
+        // TODO add your handling code here:
+        if (verificarDatos()) {
+            objetoSecuencial.setFilas1(Integer.valueOf(txtFilas1.getText()));
+            objetoSecuencial.setFilas2(Integer.valueOf(txtFilas2.getText()));
+            objetoSecuencial.setColumnas1(Integer.valueOf(txtColumnas1.getText()));
+            objetoSecuencial.setColumnas2(Integer.valueOf(txtColumnas2.getText()));
+            objetoSecuencial.inicializar();
+            objetoSecuencial.correr();
+            lblTiempoSecuencial.setText(""+objetoSecuencial.getTiempo());
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes completar todos los  campos y con numeros");
+        }
+        
+
+    }//GEN-LAST:event_btnSecuencialActionPerformed
+    
+
+    private void btnConcurrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConcurrenteActionPerformed
+        // TODO add your handling code here:
+        if ((!txtSaltos.getText().isBlank() && isNumber(txtSaltos.getText())) && (!txtHilos.getText().isBlank() && isNumber(txtHilos.getText()))) {
+            if (verificarDatos()) {
+                objetoConcurrente.setFilas1(Integer.valueOf(txtFilas1.getText()));
+                objetoConcurrente.setFilas2(Integer.valueOf(txtFilas2.getText()));
+                objetoConcurrente.setColumnas1(Integer.valueOf(txtColumnas1.getText()));
+                objetoConcurrente.setColumnas2(Integer.valueOf(txtColumnas2.getText()));
+                objetoConcurrente.setSaltos(Integer.valueOf(txtSaltos.getText()));
+                objetoConcurrente.setHilos(Integer.valueOf(txtHilos.getText()));
+                objetoConcurrente.inicializar();
+                try {
+                    objetoConcurrente.correrHilos();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Hubo un problema al intentar correr los hilos");
+                }
+                lblTiempoConcurrente.setText(""+objetoConcurrente.getTiempo());
+            } else {
+                JOptionPane.showMessageDialog(null, "Debes completar todos los  campos  y con numeros");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes completar todos los  campos  y con numeros");
+        }
+        
+
+    }//GEN-LAST:event_btnConcurrenteActionPerformed
+    
+    private boolean verificarDatos() {
+        
+        if (txtColumnas1.getText().isBlank() || !isNumber(txtColumnas1.getText())) {
+            return false;
+        }
+        if (txtColumnas2.getText().isBlank() || !isNumber(txtColumnas2.getText())) {
+            return false;
+        }
+        if (txtFilas1.getText().isBlank() || !isNumber(txtFilas1.getText())) {
+            return false;
+        }
+        if (txtFilas2.getText().isBlank() || !isNumber(txtFilas2.getText())) {
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean isNumber(String numero) {
+        try {
+            Integer.valueOf(numero); // Intenta convertir la cadena a un número
+            return true; // Si no se lanza una excepción, la cadena es un número
+        } catch (NumberFormatException e) {
+            return false; // Si se lanza una excepción, la cadena no es un número
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -129,15 +249,22 @@ public class InterfazMatrices extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConcurrente;
     private javax.swing.JButton btnSecuencial;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblColumnas1;
+    private javax.swing.JLabel lblColumnas2;
     private javax.swing.JLabel lblFilas1;
+    private javax.swing.JLabel lblFilas2;
+    private javax.swing.JLabel lblHilos;
+    private javax.swing.JLabel lblProgreso;
+    private javax.swing.JLabel lblSaltos;
+    private javax.swing.JLabel lblTiempoConcurrente;
+    private javax.swing.JLabel lblTiempoSecuencial;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextField txtColumnas1;
     private javax.swing.JTextField txtColumnas2;
     private javax.swing.JTextField txtFilas1;
     private javax.swing.JTextField txtFilas2;
+    private javax.swing.JTextField txtHilos;
+    private javax.swing.JTextField txtSaltos;
     // End of variables declaration//GEN-END:variables
 }

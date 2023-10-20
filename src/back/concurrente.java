@@ -28,18 +28,22 @@ public class concurrente {
     long semilla = 12345L;
     int min = -9;
     int max = 9;
+    int progreso = 0;
+    int cantidadHilos = 0;
+    long tiempoEjecucion = 0;
     int matriz1[][];
     int matriz2[][];
     int matrizResultado[][];
-    
-    public concurrente (){
+
+    public concurrente() {
         filas1 = 0;
         filas2 = 0;
         columnas1 = 0;
         columnas2 = 0;
         saltos = 0;
+        cantidadHilos = 8;
     }
-    
+
     public concurrente(int filas1, int columnas1, int filas2, int columnas2, int saltos) {
         this.filas1 = filas1;
         this.columnas1 = columnas1;
@@ -66,13 +70,13 @@ public class concurrente {
             }
         }
     }
-    
-    public void correrHilos() throws InterruptedException{
-    ExecutorService executor = Executors.newFixedThreadPool(8);
+
+    public void correrHilos() throws InterruptedException {
+        long startTime = System.currentTimeMillis();
+        ExecutorService executor = Executors.newFixedThreadPool(cantidadHilos);
 
         objeto.calcularFilasColumnas(filas1, columnas2);
 
-        
         //columnasTemp = conseguirColumnas(matriz2, matriz2.);
         for (int i = 0; i < filas1;) {
             for (int j = 0; j < columnas2;) {
@@ -89,21 +93,21 @@ public class concurrente {
 
                 filasTemp = conseguirFilas(matriz1, i, sizeFilas, columnas1);
 
-
                 HilosMultiplicar hilo = new HilosMultiplicar(filasTemp, matriz2, i, objeto);
-                
+
                 executor.execute(hilo);
                 j += saltos;
                 i += saltos;
+                progreso = 50;
             }
 
         }
         executor.shutdown();
         executor.awaitTermination(100, TimeUnit.MINUTES);
         matrizResultado = objeto.recibirMatriz();
+        long endTime = System.currentTimeMillis();
+        tiempoEjecucion = endTime - startTime;
     }
-
-    
 
     //HACERLOS 10 X N MEJOR, PARA QUE NO SE SEPAREN LAS MATRICES
     public static int[][] conseguirFilas(int[][] matrizTemp, int posicionFila, int sizeFilas, int sizeColumnas) {
@@ -194,6 +198,19 @@ public class concurrente {
         this.max = max;
     }
 
+    public int getProgreso() {
+        return progreso;
+    }
+
+    public long getTiempo(){
+        return tiempoEjecucion;
+    }
     
+    public void setHilos(int hilos){
+        this.cantidadHilos = hilos;
+    }
     
+    public int getHilos (){
+        return cantidadHilos;
+    }
 }
