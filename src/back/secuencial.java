@@ -70,6 +70,7 @@ public class secuencial {
     }
     
     public void correr(){
+        objeto.calcularFilasColumnas(filas1, columnas2);
         long startTime = System.currentTimeMillis();
         matrizResultado = objeto.multiplicar(filas1, columnas1, filas2, columnas2, matriz1, matriz2);
         long endTime = System.currentTimeMillis();
@@ -142,6 +143,14 @@ public class secuencial {
     
     public long getTiempo(){
         return tiempoEjecucion;
+    }
+
+    public void setMatriz1(int[][] matriz1) {
+        this.matriz1 = matriz1;
+    }
+
+    public void setMatriz2(int[][] matriz2) {
+        this.matriz2 = matriz2;
     }
     
 

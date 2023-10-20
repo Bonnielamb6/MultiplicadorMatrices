@@ -52,24 +52,7 @@ public class concurrente {
         this.saltos = saltos;
     }
 
-    public void inicializar() {
-        matriz1 = new int[filas2][columnas2];
-        matriz2 = new int[filas2][columnas2];
-        Random rand = new Random(semilla);
-        for (int i = 0; i < filas1; i++) {
-            for (int j = 0; j < columnas1; j++) {
-                int numeroAleatorio = rand.nextInt(max - min + 1) + min;
-                matriz1[i][j] = numeroAleatorio;
-            }
-        }
-
-        for (int i = 0; i < filas2; i++) {
-            for (int j = 0; j < columnas2; j++) {
-                int numeroAleatorio = rand.nextInt(max - min + 1) + min;
-                matriz2[i][j] = numeroAleatorio;
-            }
-        }
-    }
+    
 
     public void correrHilos() throws InterruptedException {
         long startTime = System.currentTimeMillis();
@@ -213,4 +196,30 @@ public class concurrente {
     public int getHilos (){
         return cantidadHilos;
     }
+
+    public int getCantidadHilos() {
+        return cantidadHilos;
+    }
+
+    public void setCantidadHilos(int cantidadHilos) {
+        this.cantidadHilos = cantidadHilos;
+    }
+
+    public int[][] getMatriz1() {
+        return matriz1;
+    }
+
+    public void setMatriz1(int[][] matriz1) {
+        this.matriz1 = matriz1;
+    }
+
+    public int[][] getMatriz2() {
+        return matriz2;
+    }
+
+    public void setMatriz2(int[][] matriz2) {
+        this.matriz2 = matriz2;
+    }
+    
+    
 }

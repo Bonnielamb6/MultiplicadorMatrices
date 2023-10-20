@@ -7,6 +7,7 @@ package front;
 import java.awt.Color;
 import back.concurrente;
 import back.secuencial;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,17 +17,25 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class InterfazMatrices extends javax.swing.JFrame {
-    
+
     secuencial objetoSecuencial = new secuencial();
     concurrente objetoConcurrente = new concurrente();
 
+    long semilla = 12345L;
+
+    int matriz1[][];
+    int matriz2[][];
+    int min = -9;
+    int max = 9;
+
     /**
+     *
      * Creates new form InterfazMatrices
      */
     public InterfazMatrices() {
-        
+
         initComponents();
-        
+
     }
 
     /**
@@ -57,6 +66,11 @@ public class InterfazMatrices extends javax.swing.JFrame {
         txtHilos = new javax.swing.JTextField();
         lblTiempoSecuencial = new javax.swing.JLabel();
         lblTiempoConcurrente = new javax.swing.JLabel();
+        btnGenerarMatrices = new javax.swing.JButton();
+        jSpinner1 = new javax.swing.JSpinner();
+        jSpinner2 = new javax.swing.JSpinner();
+        lblMax = new javax.swing.JLabel();
+        lblMin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 204, 255));
@@ -73,16 +87,16 @@ public class InterfazMatrices extends javax.swing.JFrame {
         jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1230, 41));
 
         txtFilas1.setPreferredSize(new java.awt.Dimension(100, 22));
-        jPanel1.add(txtFilas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, -1, -1));
+        jPanel1.add(txtFilas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, -1, -1));
 
         txtColumnas1.setPreferredSize(new java.awt.Dimension(100, 22));
-        jPanel1.add(txtColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, -1, -1));
+        jPanel1.add(txtColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, -1, -1));
 
         lblFilas1.setText("Cantidad de filas de matriz 1");
-        jPanel1.add(lblFilas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, -1, -1));
+        jPanel1.add(lblFilas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, -1, -1));
 
         lblColumnas1.setText("Cantidad de columnas de matriz 1");
-        jPanel1.add(lblColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, -1, -1));
+        jPanel1.add(lblColumnas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, -1, -1));
 
         lblFilas2.setText("Cantidad de filas matriz 2");
         jPanel1.add(lblFilas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 60, -1, -1));
@@ -102,7 +116,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnSecuencialActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 130, 40));
+        jPanel1.add(btnSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 410, 130, 40));
 
         btnConcurrente.setText("Concurrente");
         btnConcurrente.addActionListener(new java.awt.event.ActionListener() {
@@ -113,7 +127,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
         jPanel1.add(btnConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 400, 130, 40));
 
         lblProgreso.setText("0");
-        jPanel1.add(lblProgreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 480, -1, -1));
+        jPanel1.add(lblProgreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 610, -1, -1));
 
         txtSaltos.setMinimumSize(new java.awt.Dimension(100, 22));
         txtSaltos.setPreferredSize(new java.awt.Dimension(100, 22));
@@ -129,10 +143,26 @@ public class InterfazMatrices extends javax.swing.JFrame {
         jPanel1.add(txtHilos, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 290, -1, -1));
 
         lblTiempoSecuencial.setText("0");
-        jPanel1.add(lblTiempoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 360, -1, -1));
+        jPanel1.add(lblTiempoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 420, -1, -1));
 
         lblTiempoConcurrente.setText("0");
-        jPanel1.add(lblTiempoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 360, -1, -1));
+        jPanel1.add(lblTiempoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 420, -1, -1));
+
+        btnGenerarMatrices.setText("Generar Matrices");
+        btnGenerarMatrices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarMatricesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGenerarMatrices, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 150, 40));
+        jPanel1.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+        jPanel1.add(jSpinner2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+
+        lblMax.setText("Numero maximo en matriz");
+        jPanel1.add(lblMax, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        lblMin.setText("Numero minimo en matriz");
+        jPanel1.add(lblMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, 670));
 
@@ -140,53 +170,75 @@ public class InterfazMatrices extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSecuencialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSecuencialActionPerformed
-        // TODO add your handling code here:
-        if (verificarDatos()) {
-            objetoSecuencial.setFilas1(Integer.valueOf(txtFilas1.getText()));
-            objetoSecuencial.setFilas2(Integer.valueOf(txtFilas2.getText()));
-            objetoSecuencial.setColumnas1(Integer.valueOf(txtColumnas1.getText()));
-            objetoSecuencial.setColumnas2(Integer.valueOf(txtColumnas2.getText()));
-            objetoSecuencial.inicializar();
-            objetoSecuencial.correr();
-            lblTiempoSecuencial.setText(""+objetoSecuencial.getTiempo());
-        } else {
-            JOptionPane.showMessageDialog(null, "Debes completar todos los  campos y con numeros");
+        if (!isMatrizVacia()) {
+            objetoSecuencial.setFilas1(Integer.parseInt(txtFilas1.getText()));
+            objetoSecuencial.setFilas2(Integer.parseInt(txtFilas2.getText()));
+            objetoSecuencial.setColumnas1(Integer.parseInt(txtColumnas1.getText()));
+            objetoSecuencial.setColumnas2(Integer.parseInt(txtColumnas2.getText()));
+            objetoSecuencial.setMatriz1(matriz1);
+            objetoSecuencial.setMatriz2(matriz2);
+
+            correrSecuencial();
+
+            
         }
-        
 
     }//GEN-LAST:event_btnSecuencialActionPerformed
-    
+
 
     private void btnConcurrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConcurrenteActionPerformed
-        // TODO add your handling code here:
-        if ((!txtSaltos.getText().isBlank() && isNumber(txtSaltos.getText())) && (!txtHilos.getText().isBlank() && isNumber(txtHilos.getText()))) {
-            if (verificarDatos()) {
-                objetoConcurrente.setFilas1(Integer.valueOf(txtFilas1.getText()));
-                objetoConcurrente.setFilas2(Integer.valueOf(txtFilas2.getText()));
-                objetoConcurrente.setColumnas1(Integer.valueOf(txtColumnas1.getText()));
-                objetoConcurrente.setColumnas2(Integer.valueOf(txtColumnas2.getText()));
-                objetoConcurrente.setSaltos(Integer.valueOf(txtSaltos.getText()));
-                objetoConcurrente.setHilos(Integer.valueOf(txtHilos.getText()));
-                objetoConcurrente.inicializar();
-                try {
-                    objetoConcurrente.correrHilos();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "Hubo un problema al intentar correr los hilos");
-                }
-                lblTiempoConcurrente.setText(""+objetoConcurrente.getTiempo());
+
+        if (!isMatrizVacia()) {
+            if ((!txtSaltos.getText().isBlank() && isNumber(txtSaltos.getText())) && (!txtHilos.getText().isBlank() && isNumber(txtHilos.getText()))) {
+
+                objetoConcurrente.setFilas1(Integer.parseInt(txtFilas1.getText()));
+                objetoConcurrente.setFilas2(Integer.parseInt(txtFilas2.getText()));
+                objetoConcurrente.setColumnas1(Integer.parseInt(txtColumnas1.getText()));
+                objetoConcurrente.setColumnas2(Integer.parseInt(txtColumnas2.getText()));
+                objetoConcurrente.setMatriz1(matriz1);
+                objetoConcurrente.setMatriz2(matriz2);
+                objetoConcurrente.setSaltos(Integer.parseInt(txtSaltos.getText()));
+                objetoConcurrente.setHilos(Integer.parseInt(txtHilos.getText()));
+
+                correrConcurrente();
+
             } else {
-                JOptionPane.showMessageDialog(null, "Debes completar todos los  campos  y con numeros");
+                JOptionPane.showMessageDialog(null, "Debes completar todos los  campos con numeros");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Debes completar todos los  campos  y con numeros");
+            JOptionPane.showMessageDialog(null, "Primero tienes que llenar las matrices");
         }
-        
+
 
     }//GEN-LAST:event_btnConcurrenteActionPerformed
-    
+
+    private void btnGenerarMatricesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarMatricesActionPerformed
+        if (verificarDatos()) {
+            matriz1 = new int[Integer.parseInt(txtFilas1.getText())][Integer.parseInt(txtColumnas1.getText())];
+            matriz2 = new int[Integer.parseInt(txtFilas2.getText())][Integer.parseInt(txtColumnas2.getText())];
+            Random rand = new Random(semilla);
+
+            for (int i = 0; i < Integer.parseInt(txtFilas1.getText()); i++) {
+                for (int j = 0; j < Integer.parseInt(txtColumnas1.getText()); j++) {
+                    int numeroAleatorio = rand.nextInt(max - min + 1) + min;
+                    matriz1[i][j] = numeroAleatorio;
+                }
+            }
+
+            for (int i = 0; i < Integer.parseInt(txtFilas2.getText()); i++) {
+                for (int j = 0; j < Integer.parseInt(txtColumnas2.getText()); j++) {
+                    int numeroAleatorio = rand.nextInt(max - min + 1) + min;
+                    matriz2[i][j] = numeroAleatorio;
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes llenar todos los campos y con numeritos porfa");
+        }
+
+    }//GEN-LAST:event_btnGenerarMatricesActionPerformed
+
     private boolean verificarDatos() {
-        
+
         if (txtColumnas1.getText().isBlank() || !isNumber(txtColumnas1.getText())) {
             return false;
         }
@@ -201,14 +253,54 @@ public class InterfazMatrices extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
+    private boolean isMatrizVacia() {
+        if (matriz1.length == 0 || matriz2.length == 0) {
+            return true;
+        }
+        return false;
+    }
+
     private boolean isNumber(String numero) {
         try {
-            Integer.valueOf(numero); // Intenta convertir la cadena a un número
-            return true; // Si no se lanza una excepción, la cadena es un número
+            Integer.valueOf(numero);
+            return true;
         } catch (NumberFormatException e) {
-            return false; // Si se lanza una excepción, la cadena no es un número
+            return false;
         }
+    }
+
+    public void correrConcurrente() {
+
+        Thread hilo = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+
+                try {
+                    objetoConcurrente.correrHilos();
+                    lblTiempoConcurrente.setText("" + objetoConcurrente.getTiempo());
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Hubo un problema al intentar correr los hilos");
+                }
+
+                break;
+            }
+        });
+        hilo.start();
+
+    }
+
+    public void correrSecuencial() {
+        Thread hilo = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+
+                objetoSecuencial.correr();
+                lblTiempoSecuencial.setText("" + objetoSecuencial.getTiempo());
+
+                break;
+            }
+        });
+        hilo.start();
     }
 
     /**
@@ -248,13 +340,18 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConcurrente;
+    private javax.swing.JButton btnGenerarMatrices;
     private javax.swing.JButton btnSecuencial;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JLabel lblColumnas1;
     private javax.swing.JLabel lblColumnas2;
     private javax.swing.JLabel lblFilas1;
     private javax.swing.JLabel lblFilas2;
     private javax.swing.JLabel lblHilos;
+    private javax.swing.JLabel lblMax;
+    private javax.swing.JLabel lblMin;
     private javax.swing.JLabel lblProgreso;
     private javax.swing.JLabel lblSaltos;
     private javax.swing.JLabel lblTiempoConcurrente;

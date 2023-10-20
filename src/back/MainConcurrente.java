@@ -52,7 +52,7 @@ public class MainConcurrente {
 //            {5,1,4}
 //        };
         System.out.println("inicializando matrices");
-        objetoConcurrente.inicializar();
+        
         System.out.println("corriendo hilos");
         objetoConcurrente.correrHilos();
 
