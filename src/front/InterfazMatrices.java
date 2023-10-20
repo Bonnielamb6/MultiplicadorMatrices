@@ -27,7 +27,14 @@ public class InterfazMatrices extends javax.swing.JFrame {
     int matriz2[][];
     int min = -9;
     int max = 9;
+    long tiempoMilisegundosSecuencial = 0;
+    long tiempoSegundosSecuencial = 0;
+    long tiempoMinutosSecuencial = 0;
 
+    long tiempoMilisegundosConcurrente = 0;
+    double tiempoSegundosConcurrente = 0;
+    double tiempoMinutosConcurrente = 0;
+    int estadoTiempos = 0;
     /**
      *
      * Creates new form InterfazMatrices
@@ -35,7 +42,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
     public InterfazMatrices() {
 
         initComponents();
-
+        spnMax.setValue(9);
+        spnMin.setValue(-9);
     }
 
     /**
@@ -67,10 +75,13 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblTiempoSecuencial = new javax.swing.JLabel();
         lblTiempoConcurrente = new javax.swing.JLabel();
         btnGenerarMatrices = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
+        spnMax = new javax.swing.JSpinner();
+        spnMin = new javax.swing.JSpinner();
         lblMax = new javax.swing.JLabel();
         lblMin = new javax.swing.JLabel();
+        lblTextoConcurrente = new javax.swing.JLabel();
+        lblTextoSecuencial = new javax.swing.JLabel();
+        btnCambiarTiempo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 204, 255));
@@ -116,7 +127,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnSecuencialActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 410, 130, 40));
+        jPanel1.add(btnSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 410, 130, 40));
 
         btnConcurrente.setText("Concurrente");
         btnConcurrente.addActionListener(new java.awt.event.ActionListener() {
@@ -124,10 +135,10 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnConcurrenteActionPerformed(evt);
             }
         });
-        jPanel1.add(btnConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 400, 130, 40));
+        jPanel1.add(btnConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 420, 130, 40));
 
         lblProgreso.setText("0");
-        jPanel1.add(lblProgreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 610, -1, -1));
+        jPanel1.add(lblProgreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 610, -1, -1));
 
         txtSaltos.setMinimumSize(new java.awt.Dimension(100, 22));
         txtSaltos.setPreferredSize(new java.awt.Dimension(100, 22));
@@ -146,7 +157,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
         jPanel1.add(lblTiempoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 420, -1, -1));
 
         lblTiempoConcurrente.setText("0");
-        jPanel1.add(lblTiempoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 420, -1, -1));
+        jPanel1.add(lblTiempoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 430, -1, -1));
 
         btnGenerarMatrices.setText("Generar Matrices");
         btnGenerarMatrices.addActionListener(new java.awt.event.ActionListener() {
@@ -155,14 +166,32 @@ public class InterfazMatrices extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnGenerarMatrices, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 150, 40));
-        jPanel1.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
-        jPanel1.add(jSpinner2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+
+        spnMax.setPreferredSize(new java.awt.Dimension(100, 22));
+        jPanel1.add(spnMax, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+
+        spnMin.setPreferredSize(new java.awt.Dimension(100, 22));
+        jPanel1.add(spnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
         lblMax.setText("Numero maximo en matriz");
         jPanel1.add(lblMax, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         lblMin.setText("Numero minimo en matriz");
         jPanel1.add(lblMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        lblTextoConcurrente.setText("Tiempo en milisegundos");
+        jPanel1.add(lblTextoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 390, -1, -1));
+
+        lblTextoSecuencial.setText("Tiempo en milisegundos");
+        jPanel1.add(lblTextoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, -1, -1));
+
+        btnCambiarTiempo.setText("Cambiar unidades de tiempo");
+        btnCambiarTiempo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambiarTiempoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCambiarTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 510, 190, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, 670));
 
@@ -180,7 +209,6 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
             correrSecuencial();
 
-            
         }
 
     }//GEN-LAST:event_btnSecuencialActionPerformed
@@ -214,6 +242,9 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
     private void btnGenerarMatricesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarMatricesActionPerformed
         if (verificarDatos()) {
+            max = (int) spnMax.getValue();
+            min = (int) spnMin.getValue();
+
             matriz1 = new int[Integer.parseInt(txtFilas1.getText())][Integer.parseInt(txtColumnas1.getText())];
             matriz2 = new int[Integer.parseInt(txtFilas2.getText())][Integer.parseInt(txtColumnas2.getText())];
             Random rand = new Random(semilla);
@@ -236,6 +267,32 @@ public class InterfazMatrices extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnGenerarMatricesActionPerformed
+
+    private void btnCambiarTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarTiempoActionPerformed
+        // TODO add your handling code here:
+        if(estadoTiempos == 0) {
+            lblTiempoSecuencial.setText(""+tiempoSegundosSecuencial);
+            lblTiempoConcurrente.setText(""+tiempoSegundosConcurrente);
+            lblTextoSecuencial.setText("Tiempo en segundos");
+            lblTextoConcurrente.setText("Tiempo en segundos");
+            estadoTiempos =1;
+            
+        }else if(estadoTiempos == 1){
+            lblTiempoSecuencial.setText(""+tiempoMinutosSecuencial);
+            lblTiempoConcurrente.setText(""+tiempoMinutosConcurrente);
+            lblTextoSecuencial.setText("Tiempo en Minutos");
+            lblTextoConcurrente.setText("Tiempo en Minutos");
+            estadoTiempos =2;
+        }else if(estadoTiempos == 2){
+            lblTiempoSecuencial.setText(""+tiempoMilisegundosSecuencial);
+            lblTiempoConcurrente.setText(""+tiempoMilisegundosConcurrente);
+            lblTextoSecuencial.setText("Tiempo en Milisegundos");
+            lblTextoConcurrente.setText("Tiempo en Milisegundos");
+            estadoTiempos =0;
+        }
+        
+        
+    }//GEN-LAST:event_btnCambiarTiempoActionPerformed
 
     private boolean verificarDatos() {
 
@@ -278,6 +335,9 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 try {
                     objetoConcurrente.correrHilos();
                     lblTiempoConcurrente.setText("" + objetoConcurrente.getTiempo());
+                    tiempoMilisegundosConcurrente = objetoConcurrente.getTiempo();
+                    tiempoSegundosConcurrente = tiempoMilisegundosConcurrente / 1000;
+                    tiempoMinutosConcurrente = tiempoSegundosConcurrente / 60;
                 } catch (InterruptedException ex) {
                     Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(null, "Hubo un problema al intentar correr los hilos");
@@ -296,7 +356,9 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
                 objetoSecuencial.correr();
                 lblTiempoSecuencial.setText("" + objetoSecuencial.getTiempo());
-
+                tiempoMilisegundosSecuencial = objetoSecuencial.getTiempo();
+                tiempoSegundosSecuencial = tiempoMilisegundosSecuencial / 1000;
+                tiempoMinutosSecuencial = tiempoSegundosSecuencial / 60;
                 break;
             }
         });
@@ -339,12 +401,11 @@ public class InterfazMatrices extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCambiarTiempo;
     private javax.swing.JButton btnConcurrente;
     private javax.swing.JButton btnGenerarMatrices;
     private javax.swing.JButton btnSecuencial;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JLabel lblColumnas1;
     private javax.swing.JLabel lblColumnas2;
     private javax.swing.JLabel lblFilas1;
@@ -354,9 +415,13 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JLabel lblMin;
     private javax.swing.JLabel lblProgreso;
     private javax.swing.JLabel lblSaltos;
+    private javax.swing.JLabel lblTextoConcurrente;
+    private javax.swing.JLabel lblTextoSecuencial;
     private javax.swing.JLabel lblTiempoConcurrente;
     private javax.swing.JLabel lblTiempoSecuencial;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JSpinner spnMax;
+    private javax.swing.JSpinner spnMin;
     private javax.swing.JTextField txtColumnas1;
     private javax.swing.JTextField txtColumnas2;
     private javax.swing.JTextField txtFilas1;
