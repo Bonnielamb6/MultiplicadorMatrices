@@ -25,7 +25,9 @@ public class MatrizConcurrente {
         for(int i  = 0;i<dato.length;i++){
             for(int j = 0;j<dato[0].length;j++){
                 matriz[fila+i][columna+j] = dato[i][j];
+                
             }
+            
         }
         
         

@@ -13,7 +13,7 @@ public class HilosMultiplicar implements Runnable {
     int[][] fila;
     int[][] matriz2;
     int posFila;
-    int posColumna;
+    int posColumna =0;
     MatrizConcurrente planificador;
 
     public HilosMultiplicar(int[][] fila, int[][] matriz2, int posFila,MatrizConcurrente planificador) {
@@ -35,20 +35,27 @@ public class HilosMultiplicar implements Runnable {
     public void run() {
 
         try {
-            int matrizRetorno[][] = new int[fila.length][matriz2.length];
+            int matrizRetorno[][] = new int[fila.length][matriz2[0].length];
             int temp = 0;
             for (int i = 0; i < fila.length; i++) {
+                
                 for (int j = 0; j < matriz2[0].length; j++) {
-                    for (int recorrer = 0; recorrer < matriz2[0].length; recorrer++) {
+                    
+                    for (int recorrer = 0; recorrer < matriz2.length; recorrer++) {
+                        
                         temp += fila[i][recorrer] * matriz2[recorrer][j];
+                        
+                        
                     }
-
+                    
                     matrizRetorno[i][j] = temp;
                     temp = 0;
-                    //System.out.println(""+fila.length + ", "+columna.length);
+                    
                 }
-
+                
             }
+            System.out.println("" + matrizRetorno.length +"," + matrizRetorno[0].length);
+            System.out.println("" + matriz2.length + "," + matriz2[0].length);
             //System.out.println("Funciona11111?");
             //System.out.println("");
             
@@ -66,7 +73,7 @@ public class HilosMultiplicar implements Runnable {
             planificador.meterDatos(posFila, posColumna, matrizRetorno);
             //System.out.println("Funciona222222?");
         } catch (Exception e) {
-            System.out.println("" + e);
+            System.out.println("a1" + e);
         }
     }
 
