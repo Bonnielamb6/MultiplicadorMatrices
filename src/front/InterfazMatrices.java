@@ -31,11 +31,11 @@ public class InterfazMatrices extends javax.swing.JFrame {
     int matriz2[][];
     int min = -9;
     int max = 9;
-    long tiempoMilisegundosSecuencial = 0;
-    long tiempoSegundosSecuencial = 0;
-    long tiempoMinutosSecuencial = 0;
+    double tiempoMilisegundosSecuencial = 0;
+    double tiempoSegundosSecuencial = 0;
+    double tiempoMinutosSecuencial = 0;
 
-    long tiempoMilisegundosConcurrente = 0;
+    double tiempoMilisegundosConcurrente = 0;
     double tiempoSegundosConcurrente = 0;
     double tiempoMinutosConcurrente = 0;
     int estadoTiempos = 0;
@@ -446,8 +446,10 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
                     lblTiempoConcurrente.setText("" + objetoConcurrente.getTiempo());
                     tiempoMilisegundosConcurrente = objetoConcurrente.getTiempo();
-                    tiempoSegundosConcurrente = tiempoMilisegundosConcurrente / 1000;
+                    tiempoSegundosConcurrente =  tiempoMilisegundosConcurrente / 1000;
                     tiempoMinutosConcurrente = tiempoSegundosConcurrente / 60;
+                    System.out.println("" + tiempoMilisegundosConcurrente / 1000);
+                    
                 } catch (InterruptedException ex) {
                     Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(null, "Hubo un problema al intentar correr los hilos");
@@ -484,6 +486,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 tiempoMilisegundosSecuencial = objetoSecuencial.getTiempo();
                 tiempoSegundosSecuencial = tiempoMilisegundosSecuencial / 1000;
                 tiempoMinutosSecuencial = tiempoSegundosSecuencial / 60;
+                System.out.println("" + tiempoMilisegundosSecuencial / 1000);
+                
                 matrizResultadoSecuencial = objetoSecuencial.getMatrizResultado();
                 try {
                     archivoSecuencial = new File("archivoSecuencial.txt");

@@ -30,7 +30,7 @@ public class concurrente {
     int max = 9;
     int progreso = 0;
     int cantidadHilos = 0;
-    long tiempoEjecucion = 0;
+    double tiempoEjecucion = 0;
     int matriz1[][];
     int matriz2[][];
     int matrizResultado[][];
@@ -185,7 +185,7 @@ public class concurrente {
         return progreso;
     }
 
-    public long getTiempo(){
+    public double getTiempo(){
         return tiempoEjecucion;
     }
     

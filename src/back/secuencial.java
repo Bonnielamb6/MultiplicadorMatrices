@@ -27,7 +27,7 @@ public class secuencial {
         long semilla = 12345L; 
         int min = -9;
         int max = 9;
-        long tiempoEjecucion = 0;
+        double tiempoEjecucion = 0;
 
     public secuencial() {
         filas1 = 0;
@@ -141,7 +141,7 @@ public class secuencial {
         return max;
     }
     
-    public long getTiempo(){
+    public double getTiempo(){
         return tiempoEjecucion;
     }
 
