@@ -315,29 +315,33 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
 
     private void btnConcurrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConcurrenteActionPerformed
-
-        if (!isMatrizVacia()) {
-            if ((!txtSaltos.getText().isBlank() && isNumber(txtSaltos.getText())) && (!txtHilos.getText().isBlank() && isNumber(txtHilos.getText()))) {
-                lblProgresoConcurrente.setText("En ejecucion...");
-                lblProgresoConcurrente.setBackground(Color.red);
-                ImageIcon icono = new ImageIcon(getClass().getResource("/img/mikuPensando.gif"));
-                lblConcurrenteEstado.setIcon(icono);
-                objetoConcurrente.setFilas1(Integer.parseInt(txtFilas1.getText()));
-                objetoConcurrente.setFilas2(Integer.parseInt(txtFilas2.getText()));
-                objetoConcurrente.setColumnas1(Integer.parseInt(txtColumnas1.getText()));
-                objetoConcurrente.setColumnas2(Integer.parseInt(txtColumnas2.getText()));
-                objetoConcurrente.setMatriz1(matriz1);
-                objetoConcurrente.setMatriz2(matriz2);
-                objetoConcurrente.setSaltos(Integer.parseInt(txtSaltos.getText()));
-                objetoConcurrente.setHilos(Integer.parseInt(txtHilos.getText()));
-
-                correrConcurrente();
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Debes completar todos los  campos con numeros");
-            }
+        if (Integer.parseInt(txtHilos.getText()) > 8) {
+            JOptionPane.showMessageDialog(null, "No puedes poner mas de 8 hilos porfa");
         } else {
-            JOptionPane.showMessageDialog(null, "Primero tienes que llenar las matrices");
+            if (!isMatrizVacia()) {
+                if ((!txtSaltos.getText().isBlank() && isNumber(txtSaltos.getText())) && (!txtHilos.getText().isBlank() && isNumber(txtHilos.getText()))) {
+                    lblProgresoConcurrente.setText("En ejecucion...");
+                    lblProgresoConcurrente.setBackground(Color.red);
+                    ImageIcon icono = new ImageIcon(getClass().getResource("/img/mikuPensando.gif"));
+                    lblConcurrenteEstado.setIcon(icono);
+                    objetoConcurrente.setFilas1(Integer.parseInt(txtFilas1.getText()));
+                    objetoConcurrente.setFilas2(Integer.parseInt(txtFilas2.getText()));
+                    objetoConcurrente.setColumnas1(Integer.parseInt(txtColumnas1.getText()));
+                    objetoConcurrente.setColumnas2(Integer.parseInt(txtColumnas2.getText()));
+                    objetoConcurrente.setMatriz1(matriz1);
+                    objetoConcurrente.setMatriz2(matriz2);
+                    objetoConcurrente.setSaltos(Integer.parseInt(txtSaltos.getText()));
+                    objetoConcurrente.setHilos(Integer.parseInt(txtHilos.getText()));
+
+                    correrConcurrente();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debes completar todos los  campos con numeros");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Primero tienes que llenar las matrices");
+            }
+
         }
 
 
@@ -404,6 +408,9 @@ public class InterfazMatrices extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCambiarTiempoActionPerformed
 
     private boolean verificarDatos() {
+        if (Integer.parseInt(txtColumnas1.getText()) != Integer.parseInt(txtFilas2.getText())) {
+            return false;
+        }
 
         if (txtColumnas1.getText().isBlank() || !isNumber(txtColumnas1.getText())) {
             return false;
@@ -446,10 +453,10 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
                     lblTiempoConcurrente.setText("" + objetoConcurrente.getTiempo());
                     tiempoMilisegundosConcurrente = objetoConcurrente.getTiempo();
-                    tiempoSegundosConcurrente =  tiempoMilisegundosConcurrente / 1000;
+                    tiempoSegundosConcurrente = tiempoMilisegundosConcurrente / 1000;
                     tiempoMinutosConcurrente = tiempoSegundosConcurrente / 60;
                     System.out.println("" + tiempoMilisegundosConcurrente / 1000);
-                    
+
                 } catch (InterruptedException ex) {
                     Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(null, "Hubo un problema al intentar correr los hilos");
@@ -487,7 +494,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 tiempoSegundosSecuencial = tiempoMilisegundosSecuencial / 1000;
                 tiempoMinutosSecuencial = tiempoSegundosSecuencial / 60;
                 System.out.println("" + tiempoMilisegundosSecuencial / 1000);
-                
+
                 matrizResultadoSecuencial = objetoSecuencial.getMatrizResultado();
                 try {
                     archivoSecuencial = new File("archivoSecuencial.txt");

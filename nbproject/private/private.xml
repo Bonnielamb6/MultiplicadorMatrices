@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/concurrente.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/MatrizConcurrente.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/front/InterfazMatrices.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/secuencial.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/HilosMultiplicar.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/MatrizSecuencial.java</file>
+            <file>file:/C:/Users/User/Documents/GitHub/MultiplicadorMatrices/src/back/HilosMultiplicar.java</file>
+            <file>file:/C:/Users/User/Documents/GitHub/MultiplicadorMatrices/src/back/concurrente.java</file>
+            <file>file:/C:/Users/User/Documents/GitHub/MultiplicadorMatrices/src/back/MatrizConcurrente.java</file>
+            <file>file:/C:/Users/User/Documents/GitHub/MultiplicadorMatrices/src/front/InterfazMatrices.java</file>
         </group>
     </open-files>
 </project-private>
