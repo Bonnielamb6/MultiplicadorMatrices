@@ -11,4 +11,5 @@ import java.rmi.RemoteException;
  */
 public interface InterfazRemota extends Remote{
     public void meterDatos (int filaInicio,int filaFinal, int columna, int[][] dato) throws RemoteException;
+    public void inicializarMatriz() throws RemoteException;
 }

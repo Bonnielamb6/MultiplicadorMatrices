@@ -58,6 +58,7 @@ public class Cliente {
             InterfazRemota mir
                     = (InterfazRemota) Naming.lookup("//"
                             +"192.168.100.5:9999/Matrices");
+            mir.inicializarMatriz();
             mir.meterDatos(filaInicio,filaFinal, 0, objConcurrente.getMatrizResultado());
         } catch (Exception e) {
             System.out.println("Error al correr hilos"+e);

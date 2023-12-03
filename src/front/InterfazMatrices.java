@@ -443,15 +443,17 @@ public class InterfazMatrices extends javax.swing.JFrame {
                     Integer.parseInt("9999"));
             
             InterfazRemota mir = new MatrizParalela();
-            System.out.println("ayuda");
+            System.out.println("Servicio levantado");
             java.rmi.Naming.rebind("//"
                     + java.net.InetAddress.getLocalHost().getHostAddress()
                     + ":9999/Matrices", mir);
+            mir.inicializarMatriz();
+            
         } catch (Exception e) {
             System.out.println("error al levantar servicio "+e);
         }
     }//GEN-LAST:event_btnParaleloActionPerformed
-
+    
     private boolean verificarDatos() {
         if (Integer.parseInt(txtColumnas1.getText()) != Integer.parseInt(txtFilas2.getText())) {
             return false;
