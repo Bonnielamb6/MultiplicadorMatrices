@@ -34,14 +34,18 @@ public class concurrente {
     int matriz1[][];
     int matriz2[][];
     int matrizResultado[][];
+    int inicio;
+    int filaFinal;
 
     public concurrente() {
         filas1 = 0;
         filas2 = 0;
         columnas1 = 0;
         columnas2 = 0;
-        saltos = 0;
-        cantidadHilos = 8;
+        saltos = 10;
+        cantidadHilos = 4;
+        inicio = 0;
+        filaFinal = 0;
     }
 
     public concurrente(int filas1, int columnas1, int filas2, int columnas2, int saltos) {
@@ -50,19 +54,18 @@ public class concurrente {
         this.filas2 = filas2;
         this.columnas2 = columnas2;
         this.saltos = saltos;
+        inicio = 0;
+        filaFinal = filas1;
     }
-
-    
 
     public void correrHilos() throws InterruptedException {
         long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newFixedThreadPool(cantidadHilos);
 
-        objeto.calcularFilasColumnas(filas1, columnas2);
-
+        objeto.calcularFilasColumnas(1000, 1000);
         //columnasTemp = conseguirColumnas(matriz2, matriz2.);
-        for (int i = 0; i < filas1;) {
-            for (int j = 0; j < columnas2;) {
+        for (int i = inicio; i < filaFinal;) {
+            for (int j = inicio; j < columnas2;) {
                 int[][] filasTemp;
 
                 int sizeFilas = saltos;
@@ -73,16 +76,22 @@ public class concurrente {
                 if (i + saltos > filas1) {
                     sizeFilas = filas1 - i;
                 }
+                if (i + saltos < filaFinal) {
+                    filasTemp = conseguirFilas(matriz1, i, sizeFilas, columnas1);
 
-                filasTemp = conseguirFilas(matriz1, i, sizeFilas, columnas1);
+                    HilosMultiplicar hilo = new HilosMultiplicar(filasTemp, matriz2, i, objeto);
 
-                HilosMultiplicar hilo = new HilosMultiplicar(filasTemp, matriz2, i, objeto);
+                    executor.execute(hilo);
+                    j += saltos;
+                    i += saltos;
+                }else{
+                    j=columnas2;
+                    i=filaFinal;
+                }
 
-                executor.execute(hilo);
-                j += saltos;
-                i += saltos;
                 progreso = 50;
             }
+            
             progreso = 100;
         }
         executor.shutdown();
@@ -185,15 +194,15 @@ public class concurrente {
         return progreso;
     }
 
-    public double getTiempo(){
+    public double getTiempo() {
         return tiempoEjecucion;
     }
-    
-    public void setHilos(int hilos){
+
+    public void setHilos(int hilos) {
         this.cantidadHilos = hilos;
     }
-    
-    public int getHilos (){
+
+    public int getHilos() {
         return cantidadHilos;
     }
 
@@ -224,6 +233,21 @@ public class concurrente {
     public int[][] getMatrizResultado() {
         return matrizResultado;
     }
-    
-    
+
+    public int getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(int inicio) {
+        this.inicio = inicio;
+    }
+
+    public int getFilaFinal() {
+        return filaFinal;
+    }
+
+    public void setFilaFinal(int filaFinal) {
+        this.filaFinal = filaFinal;
+    }
+
 }

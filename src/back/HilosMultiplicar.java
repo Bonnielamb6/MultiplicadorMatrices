@@ -44,7 +44,7 @@ public class HilosMultiplicar implements Runnable {
                     for (int recorrer = 0; recorrer < matriz2.length; recorrer++) {
                         
                         temp += fila[i][recorrer] * matriz2[recorrer][j];
-                        
+                        //System.out.println(temp);
                         
                     }
                     
@@ -73,7 +73,7 @@ public class HilosMultiplicar implements Runnable {
             planificador.meterDatos(posFila, posColumna, matrizRetorno);
             //System.out.println("Funciona222222?");
         } catch (Exception e) {
-            System.out.println("a1" + e);
+            System.out.println("Error al meter datos" + e);
         }
     }
 

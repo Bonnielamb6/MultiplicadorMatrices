@@ -4,12 +4,16 @@
  */
 package front;
 
+import back.InterfazRemota;
 import java.awt.Color;
 import back.concurrente;
 import back.secuencial;
+import back.MatrizParalela;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,6 +101,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblProgresoSecuencial = new javax.swing.JLabel();
         lblSecuencialEstado = new javax.swing.JLabel();
         lblConcurrenteEstado = new javax.swing.JLabel();
+        btnParalelo = new javax.swing.JButton();
         ImagenFondo = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
@@ -283,6 +288,16 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblConcurrenteEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuEsperando.gif"))); // NOI18N
         jPanel1.add(lblConcurrenteEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 490, -1, -1));
 
+        btnParalelo.setBackground(new java.awt.Color(0, 255, 0));
+        btnParalelo.setForeground(new java.awt.Color(0, 0, 0));
+        btnParalelo.setText("Paralelo");
+        btnParalelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnParaleloActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnParalelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 370, 100, 30));
+
         ImagenFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuFondo.jpeg"))); // NOI18N
         jPanel1.add(ImagenFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 670));
 
@@ -407,6 +422,34 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCambiarTiempoActionPerformed
 
+    private void btnParaleloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParaleloActionPerformed
+        // TODO add your handling code here:
+//        objetoConcurrente.setFilas1(Integer.parseInt(txtFilas1.getText())/2);
+//        objetoConcurrente.setFilas2(Integer.parseInt(txtFilas2.getText())/2);
+//        
+//        objetoConcurrente.setColumnas1(Integer.parseInt(txtColumnas1.getText()));
+//        objetoConcurrente.setColumnas2(Integer.parseInt(txtColumnas2.getText()));
+//        objetoConcurrente.setMatriz1(matriz1);
+//        objetoConcurrente.setMatriz2(matriz2);
+//        objetoConcurrente.setSaltos(Integer.parseInt(txtSaltos.getText()));
+//        objetoConcurrente.setHilos(Integer.parseInt(txtHilos.getText()));
+//
+//        correrConcurrente();
+        
+        try {
+            Registry registry = LocateRegistry.createRegistry(
+                    Integer.parseInt("9999"));
+
+            InterfazRemota mir = new MatrizParalela(Integer.parseInt(txtFilas1.getText()) ,Integer.parseInt(txtColumnas1.getText()), matriz1);
+
+            java.rmi.Naming.rebind("//"
+                    + java.net.InetAddress.getLocalHost().getHostAddress()
+                    + ":9999/Matrices", mir);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnParaleloActionPerformed
+
     private boolean verificarDatos() {
         if (Integer.parseInt(txtColumnas1.getText()) != Integer.parseInt(txtFilas2.getText())) {
             return false;
@@ -471,6 +514,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                     }
 
                 } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al crear archivo");
                     Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 lblProgresoConcurrente.setText("Finalizado");
@@ -561,7 +605,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
             escritura.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Hubo un error" + e);
+            JOptionPane.showMessageDialog(null, "Hubo un error al escribir el archivo" + e);
         }
 
     }
@@ -614,6 +658,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JButton btnCambiarTiempo;
     private javax.swing.JButton btnConcurrente;
     private javax.swing.JButton btnGenerarMatrices;
+    private javax.swing.JButton btnParalelo;
     private javax.swing.JButton btnSecuencial;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

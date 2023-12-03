@@ -28,13 +28,17 @@ public class MatrizConcurrente {
                 
             }
             
-        }
+        }    
         
         
     }
     
     public int [] [] recibirMatriz(){
         return matriz;
+    }
+    
+    public void inicializarMatriz(int filas, int columnas){
+        matriz = new int [filas][columnas];
     }
     
     public int getFilas() {
