@@ -58,7 +58,7 @@ public class Cliente {
             InterfazRemota mir
                     = (InterfazRemota) Naming.lookup("//"
                             +"192.168.100.5:9999/Matrices");
-            mir.inicializarMatriz();
+            
             mir.meterDatos(filaInicio,filaFinal, 0, objConcurrente.getMatrizResultado());
             mir.imprimirMatriz();
         } catch (Exception e) {
