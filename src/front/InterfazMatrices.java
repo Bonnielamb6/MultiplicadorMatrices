@@ -10,11 +10,13 @@ import back.concurrente;
 import back.secuencial;
 import back.MatrizParalela;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -435,18 +437,18 @@ public class InterfazMatrices extends javax.swing.JFrame {
 //        objetoConcurrente.setHilos(Integer.parseInt(txtHilos.getText()));
 //
 //        correrConcurrente();
-        
+        matriz1 = leerMatrizDesdeArchivo("matriz1.txt");
         try {
             Registry registry = LocateRegistry.createRegistry(
                     Integer.parseInt("9999"));
-
-            InterfazRemota mir = new MatrizParalela(Integer.parseInt(txtFilas1.getText()) ,Integer.parseInt(txtColumnas1.getText()), matriz1);
-
+            
+            InterfazRemota mir = new MatrizParalela();
+            System.out.println("ayuda");
             java.rmi.Naming.rebind("//"
                     + java.net.InetAddress.getLocalHost().getHostAddress()
                     + ":9999/Matrices", mir);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("error al levantar servicio "+e);
         }
     }//GEN-LAST:event_btnParaleloActionPerformed
 
@@ -618,6 +620,35 @@ public class InterfazMatrices extends javax.swing.JFrame {
         }
     }
 
+    private static int[][] leerMatrizDesdeArchivo(String rutaArchivo) {
+        int[][] matriz = null;
+
+        try {
+            File archivo = new File(rutaArchivo);
+            Scanner scanner = new Scanner(archivo);
+
+            // Determinar el tamaño de la matriz (asumiendo que el archivo contiene filas y columnas en la primera línea)
+            int filas = scanner.nextInt();
+            int columnas = scanner.nextInt();
+            matriz = new int[filas][columnas];
+
+            // Leer los elementos de la matriz desde el archivo
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    matriz[i][j] = scanner.nextInt();
+                }
+            }
+
+            // Cerrar el scanner
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return matriz;
+    }
+    
     /**
      * @param args the command line arguments
      */

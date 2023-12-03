@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
-
+import java.rmi.Naming;
 /**
  *
  * @author PC
@@ -34,7 +34,7 @@ public class Cliente {
         objConcurrente.setMatriz1(matriz1);
         objConcurrente.setMatriz2(matriz2);
         
-        objConcurrente.setCantidadHilos(8);
+        objConcurrente.setCantidadHilos(2);
         objConcurrente.setSaltos(10);
         objConcurrente.setInicio(filaInicio);
         objConcurrente.setFilaFinal(filaFinal);
@@ -44,21 +44,21 @@ public class Cliente {
         try {
             
             objConcurrente.correrHilos();
-            imprimirMatriz(matriz1);
-            System.out.println("matriz2");
-            imprimirMatriz(matriz2);
-            System.out.println("resultado");
-            imprimirMatriz(objConcurrente.getMatrizResultado());
+            //imprimirMatriz(matriz1);
+            //System.out.println("matriz2");
+            //imprimirMatriz(matriz2);
+            //System.out.println("resultado");
             //imprimirMatriz(objConcurrente.getMatrizResultado());
-//            Registry registry = LocateRegistry.createRegistry(
-//                    Integer.parseInt("9999"));
-//
-//            InterfazRemota mir = new MatrizParalela();
-//
-//            java.rmi.Naming.rebind("//"
-//                    + java.net.InetAddress.getLocalHost().getHostAddress()
-//                    + ":9999/Matrices", mir);
-//            mir.meterDatos(filaInicio, 0, objConcurrente.getMatrizResultado());
+            //imprimirMatriz(objConcurrente.getMatrizResultado());
+            Registry registry = LocateRegistry.createRegistry(
+                    Integer.parseInt("9999"));
+
+            
+
+            InterfazRemota mir
+                    = (InterfazRemota) Naming.lookup("//"
+                            +"192.168.100.5:9999/Matrices");
+            mir.meterDatos(filaInicio,filaFinal, 0, objConcurrente.getMatrizResultado());
         } catch (Exception e) {
             System.out.println("Error al correr hilos"+e);
         }

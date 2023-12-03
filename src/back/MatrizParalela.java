@@ -27,14 +27,16 @@ public class MatrizParalela extends UnicastRemoteObject implements
         this.filas = filas;
         this.columnas = columnas;
         this.matriz = matriz;
+        
     }
     
     
     
-    public void meterDatos (int fila, int columna, int[][] dato) throws RemoteException{
-        for(int i  = 0;i<dato.length;i++){
+    public void meterDatos (int filaInicio,int filaFinal, int columna, int[][] dato) throws RemoteException{
+        System.out.println("Conexion");
+        for(int i  = 0;i<filaFinal-filaInicio;i++){
             for(int j = 0;j<dato[0].length;j++){
-                matriz[fila+i][columna+j] = dato[i][j];
+                matriz[filaInicio+i][columna+j] = dato[i][j];
                 
             }   
         }    
