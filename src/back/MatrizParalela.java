@@ -19,7 +19,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
     private int filas;
     private int columnas;
-    private int[][] matriz = new int [1000][1000];
+    private int[][] matriz = new int[1000][1000];
 
     public MatrizParalela() throws RemoteException {
         filas = 0;
@@ -28,12 +28,10 @@ public class MatrizParalela extends UnicastRemoteObject implements
     public MatrizParalela(int filas, int columnas, int[][] matriz) throws RemoteException {
         this.filas = filas;
         this.columnas = columnas;
-        
-        inicializarMatriz();
 
     }
 
-    public void inicializarMatriz() throws RemoteException{
+    public void inicializarMatriz() throws RemoteException {
         for (int i = 0; i < 1000; i++) {
             for (int j = 0; j < 1000; j++) {
                 matriz[i][j] = 0;
@@ -44,16 +42,16 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
     public void meterDatos(int filaInicio, int filaFinal, int columna, int[][] dato) throws RemoteException {
         System.out.println("Conexion");
+        System.out.println(dato[999][999]);
         for (int i = 0; i < filaFinal - filaInicio; i++) {
-            
+
             for (int j = 0; j < dato[0].length; j++) {
-                matriz[filaInicio + i][columna + j] = dato[filaInicio+i][j];
+                matriz[filaInicio + i][columna + j] = dato[filaInicio + i][j];
             }
         }
-        imprimirMatriz(matriz);
     }
-    
-        private static void imprimirMatriz(int[][] matriz) {
+
+    public void imprimirMatriz() throws RemoteException {
         if (matriz != null) {
             for (int i = 0; i < matriz.length; i++) {
                 for (int j = 0; j < matriz[i].length; j++) {

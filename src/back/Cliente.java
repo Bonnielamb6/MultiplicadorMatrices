@@ -27,7 +27,7 @@ public class Cliente {
     public void conectarConServidor(){
         concurrente objConcurrente = new concurrente(1000, 1000, 1000, 1000, 10);
         filaInicio = 500;
-        filaFinal = 700;
+        filaFinal = 1000;
         int matriz1[][] = leerMatrizDesdeArchivo("matriz1.txt");
         int matriz2[][] = leerMatrizDesdeArchivo("matriz2.txt");
         
@@ -60,6 +60,7 @@ public class Cliente {
                             +"192.168.100.5:9999/Matrices");
             mir.inicializarMatriz();
             mir.meterDatos(filaInicio,filaFinal, 0, objConcurrente.getMatrizResultado());
+            mir.imprimirMatriz();
         } catch (Exception e) {
             System.out.println("Error al correr hilos"+e);
         }

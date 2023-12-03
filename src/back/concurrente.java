@@ -76,7 +76,7 @@ public class concurrente {
                 if (i + saltos > filas1) {
                     sizeFilas = filas1 - i;
                 }
-                if (i + saltos < filaFinal) {
+                if (i + saltos <= filaFinal) {
                     filasTemp = conseguirFilas(matriz1, i, sizeFilas, columnas1);
 
                     HilosMultiplicar hilo = new HilosMultiplicar(filasTemp, matriz2, i, objeto);

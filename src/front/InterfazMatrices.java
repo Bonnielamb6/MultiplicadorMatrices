@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Random;
@@ -426,19 +427,20 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
     private void btnParaleloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParaleloActionPerformed
         // TODO add your handling code here:
-//        objetoConcurrente.setFilas1(Integer.parseInt(txtFilas1.getText())/2);
-//        objetoConcurrente.setFilas2(Integer.parseInt(txtFilas2.getText())/2);
-//        
-//        objetoConcurrente.setColumnas1(Integer.parseInt(txtColumnas1.getText()));
-//        objetoConcurrente.setColumnas2(Integer.parseInt(txtColumnas2.getText()));
-//        objetoConcurrente.setMatriz1(matriz1);
-//        objetoConcurrente.setMatriz2(matriz2);
-//        objetoConcurrente.setSaltos(Integer.parseInt(txtSaltos.getText()));
-//        objetoConcurrente.setHilos(Integer.parseInt(txtHilos.getText()));
-//
-//        correrConcurrente();
+        concurrente objConcurrente = new concurrente(1000, 1000, 1000, 1000, 10);
+        
         matriz1 = leerMatrizDesdeArchivo("matriz1.txt");
+        matriz2 = leerMatrizDesdeArchivo("matriz2.txt");
+        
+        objConcurrente.setMatriz1(matriz1);
+        objConcurrente.setMatriz2(matriz2);
+        
+        objConcurrente.setCantidadHilos(2);
+        objConcurrente.setSaltos(10);
+        objConcurrente.setInicio(0);
+        objConcurrente.setFilaFinal(499);
         try {
+            objConcurrente.correrHilos();
             Registry registry = LocateRegistry.createRegistry(
                     Integer.parseInt("9999"));
             
@@ -448,7 +450,9 @@ public class InterfazMatrices extends javax.swing.JFrame {
                     + java.net.InetAddress.getLocalHost().getHostAddress()
                     + ":9999/Matrices", mir);
             mir.inicializarMatriz();
-            
+            //imprimirMatriz(objConcurrente.getMatrizResultado());
+            mir.meterDatos(0, 499, 0, objConcurrente.getMatrizResultado());
+            //mir.imprimirMatriz();
         } catch (Exception e) {
             System.out.println("error al levantar servicio "+e);
         }
@@ -619,6 +623,17 @@ public class InterfazMatrices extends javax.swing.JFrame {
             archivoTemp.delete();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un problema al intentar borrar el archivo");
+        }
+    }
+    
+    public void imprimirMatriz(int matriz[][]) throws RemoteException {
+        if (matriz != null) {
+            for (int i = 0; i < matriz.length; i++) {
+                for (int j = 0; j < matriz[i].length; j++) {
+                    System.out.print(matriz[i][j] + " ");
+                }
+                System.out.println();
+            }
         }
     }
 
