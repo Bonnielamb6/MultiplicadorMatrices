@@ -366,7 +366,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
                     objetoConcurrente.setMatriz2(matriz2);
                     objetoConcurrente.setSaltos(Integer.parseInt(txtSaltos.getText()));
                     objetoConcurrente.setHilos(Integer.parseInt(txtHilos.getText()));
-
+                    objetoConcurrente.setInicio(0);
+                    objetoConcurrente.setFilaFinal(Integer.parseInt(txtFilas1.getText()));
                     correrConcurrente();
 
                 } else {
