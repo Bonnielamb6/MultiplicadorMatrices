@@ -28,6 +28,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
     private int[][] matriz2;
     private long semilla = 12345L;
     private long tiempoEjecucion = 0;
+    private int terminados =0;
     concurrente objConcurrente;
 
     public MatrizParalela() throws RemoteException {
@@ -62,11 +63,15 @@ public class MatrizParalela extends UnicastRemoteObject implements
     }
 
     public void meterDatos(int filaInicio, int filaFinal, int columna, int[][] dato) throws RemoteException {
+        terminados++;
         int iterador = 0;
         for (int i = filaInicio; i < filaFinal; i++) {
             for (int j = 0; j < dato[0].length; j++) {
                 matriz[i + iterador][columna + j] = dato[i][j];
             }
+        }
+        if(terminados == clientes.size()+1){
+            imprimirMatriz();
         }
     }
 
@@ -82,10 +87,14 @@ public class MatrizParalela extends UnicastRemoteObject implements
     }
 
     public void dividirChamba() throws RemoteException {
-        int filasCliente = filas / clientes.size();
+        int filasCliente = filas / (clientes.size()+1);
         int residuo = filas % clientes.size();
         int filasActual = filasCliente + residuo;
         objConcurrente.setFilaFinal(filasActual);
+        System.out.println(filas);
+        System.out.println(filasActual);
+        System.out.println(filasCliente);
+        System.out.println(clientes.size());
         for (InterfaceCliente cliente : clientes) {
             cliente.recibirDatos(filasActual, filasActual + filasCliente, 10, 4,filas);
             filasActual += filasCliente;
@@ -134,10 +143,15 @@ public class MatrizParalela extends UnicastRemoteObject implements
     }
     
     public void correrProcesos() throws RemoteException {
+        System.out.println("c1");
         for (InterfaceCliente cliente : clientes) {
+            System.out.println("c11");
             cliente.multiplicar();
+            System.out.println("c12");
         }
+        System.out.println("c2");
         multiplicarServidor();
+        System.out.println("c3");
     }
 
     public int getFilas() {

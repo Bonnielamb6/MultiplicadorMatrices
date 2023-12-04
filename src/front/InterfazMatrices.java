@@ -110,6 +110,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblSecuencialEstado = new javax.swing.JLabel();
         lblConcurrenteEstado = new javax.swing.JLabel();
         btnParalelo = new javax.swing.JButton();
+        btnGenMatrices = new javax.swing.JButton();
         ImagenFondo = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
@@ -276,7 +277,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnCambiarTiempoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCambiarTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 540, 190, 40));
+        jPanel1.add(btnCambiarTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 620, 190, 40));
 
         lblProgresoConcurrente.setBackground(new java.awt.Color(51, 255, 51));
         lblProgresoConcurrente.setForeground(new java.awt.Color(0, 0, 0));
@@ -304,7 +305,17 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnParaleloActionPerformed(evt);
             }
         });
-        jPanel1.add(btnParalelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 370, 100, 30));
+        jPanel1.add(btnParalelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, 100, 30));
+
+        btnGenMatrices.setBackground(new java.awt.Color(0, 255, 0));
+        btnGenMatrices.setForeground(new java.awt.Color(0, 0, 0));
+        btnGenMatrices.setText("Matrices paralelas");
+        btnGenMatrices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenMatricesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGenMatrices, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, 130, 40));
 
         ImagenFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuFondo.jpeg"))); // NOI18N
         jPanel1.add(ImagenFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 670));
@@ -441,7 +452,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
             try {
                 // Crea el registro RMI
-                registry = LocateRegistry.createRegistry(1235);
+                registry = LocateRegistry.createRegistry(9999);
 
                 // Crea el objeto remoto si aún no existe
                 if (mir == null) {
@@ -450,13 +461,14 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
                 // Exporta el objeto remoto solo si no ha sido exportado previamente
                 try {
-                    java.rmi.Naming.rebind("//" + java.net.InetAddress.getLocalHost().getHostAddress() + ":9999/ChatRMI", mir);
+                    java.rmi.Naming.rebind("//" + java.net.InetAddress.getLocalHost().getHostAddress() + ":9999/Matrices", mir);
                     mir.inicializarMatriz();
                 } catch (ExportException e) {
                     System.out.println("El objeto remoto ya está exportado.");
                 }
 
                 while (true) {
+                    
                 }
             } catch (Exception e) {
                 System.out.println(e);
@@ -464,7 +476,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 try {
                     if (mir != null) {
                         // Desvincula el objeto remoto del registro RMI
-                        java.rmi.Naming.unbind("//" + java.net.InetAddress.getLocalHost().getHostAddress() + ":1235/ChatRMI");
+                        java.rmi.Naming.unbind("//" + java.net.InetAddress.getLocalHost().getHostAddress() + ":9999/Matrices");
 
                         // Deshace la exportación del objeto remoto
                         UnicastRemoteObject.unexportObject(mir, true);
@@ -485,27 +497,23 @@ public class InterfazMatrices extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         try {
-
-            Registry registry = LocateRegistry.createRegistry(
-                    Integer.parseInt("9999"));
-
-            
-            System.out.println("Servicio levantado");
-            java.rmi.Naming.rebind("//"
-                    + java.net.InetAddress.getLocalHost().getHostAddress()
-                    + ":9999/Matrices", mir);
-            
-            mir.generarMatrices();
-            mir.dividirChamba();
             mir.correrProcesos();
-            mir.imprimirMatriz();
-            //imprimirMatriz(objConcurrente.getMatrizResultado());
-
             //mir.imprimirMatriz();
         } catch (Exception e) {
             System.out.println("error al levantar servicio " + e);
         }
     }//GEN-LAST:event_btnParaleloActionPerformed
+
+    private void btnGenMatricesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenMatricesActionPerformed
+        try {
+            // TODO add your handling code here:
+            mir.dividirChamba();
+            mir.generarMatrices();
+        } catch (RemoteException ex) {
+            Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnGenMatricesActionPerformed
 
     private boolean verificarDatos() {
         if (Integer.parseInt(txtColumnas1.getText()) != Integer.parseInt(txtFilas2.getText())) {
@@ -754,6 +762,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JLabel ImagenFondo;
     private javax.swing.JButton btnCambiarTiempo;
     private javax.swing.JButton btnConcurrente;
+    private javax.swing.JButton btnGenMatrices;
     private javax.swing.JButton btnGenerarMatrices;
     private javax.swing.JButton btnParalelo;
     private javax.swing.JButton btnSecuencial;
