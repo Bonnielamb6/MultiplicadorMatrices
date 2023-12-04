@@ -142,5 +142,55 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
         
         
     }
+
+    public long getSemilla() {
+        return semilla;
+    }
+
+    public void setSemilla(long semilla) {
+        this.semilla = semilla;
+    }
+
+    public int getFilaInicio() {
+        return filaInicio;
+    }
+
+    public void setFilaInicio(int filaInicio) {
+        this.filaInicio = filaInicio;
+    }
+
+    public int getFilaFinal() {
+        return filaFinal;
+    }
+
+    public void setFilaFinal(int filaFinal) {
+        this.filaFinal = filaFinal;
+    }
+
+    public int getCantidadFilas() {
+        return cantidadFilas;
+    }
+
+    public void setCantidadFilas(int cantidadFilas) {
+        this.cantidadFilas = cantidadFilas;
+    }
+
+    public InterfazRemota getMir() {
+        return mir;
+    }
+
+    public void setMir(InterfazRemota mir) {
+        this.mir = mir;
+    }
+
+    public concurrente getObjConcurrente() {
+        return objConcurrente;
+    }
+
+    public void setObjConcurrente(concurrente objConcurrente) {
+        this.objConcurrente = objConcurrente;
+    }
+    
+    
     
 }
