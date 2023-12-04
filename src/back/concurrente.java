@@ -62,7 +62,7 @@ public class concurrente {
         long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newFixedThreadPool(cantidadHilos);
 
-        objeto.calcularFilasColumnas(1000, 1000);
+        objeto.calcularFilasColumnas(filas1, columnas1);
         //columnasTemp = conseguirColumnas(matriz2, matriz2.);
         for (int i = inicio; i < filaFinal;) {
             for (int j = inicio; j < columnas2;) {

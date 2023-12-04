@@ -23,9 +23,11 @@ public class MatrizParalela extends UnicastRemoteObject implements
     private List<InterfaceCliente> clientes = new ArrayList<>();
     private int filas;
     private int columnas;
-    private int[][] matriz = new int[1000][1000];
+    private int[][] matriz;
     private int[][] matriz1;
     private int[][] matriz2;
+    private int hilos;
+    private int saltos;
     private long semilla = 12345L;
     private long tiempoEjecucion = 0;
     private int terminados =0;
@@ -38,24 +40,23 @@ public class MatrizParalela extends UnicastRemoteObject implements
     public MatrizParalela(int filas, int columnas, int[][] matriz, int saltos, int hilos) throws RemoteException {
         this.filas = filas;
         this.columnas = columnas;
-        matriz1 = new int[filas][columnas];
-        matriz2 = new int[filas][columnas];
+        
         objConcurrente = new concurrente(filas, columnas, filas, columnas, saltos);
-        objConcurrente.setInicio(0);
+        this.saltos = saltos;
+        this.hilos = hilos;
         //objConcurrente.setFilaFinal(filaFinal);
-        objConcurrente.setSaltos(saltos);
-        objConcurrente.setCantidadHilos(hilos);
+        
 
     }
 
     public void conectarCliente(InterfaceCliente cliente) throws RemoteException {
         clientes.add(cliente);
-        System.out.println("Cliente conectado");
+        System.out.println("Cliente " +cliente.direccion()+ " conectado");
     }
 
     public void inicializarMatriz() throws RemoteException {
-        for (int i = 0; i < 1000; i++) {
-            for (int j = 0; j < 1000; j++) {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
                 matriz[i][j] = 0;
 
             }
@@ -72,11 +73,13 @@ public class MatrizParalela extends UnicastRemoteObject implements
         }
         if(terminados == clientes.size()+1){
             imprimirMatriz();
+            terminados =0;
         }
     }
 
     public void imprimirMatriz() throws RemoteException {
         if (matriz != null) {
+            System.out.println("imprimir matriz");
             for (int i = 0; i < matriz.length; i++) {
                 for (int j = 0; j < matriz[i].length; j++) {
                     System.out.print(matriz[i][j] + " ");
@@ -90,13 +93,22 @@ public class MatrizParalela extends UnicastRemoteObject implements
         int filasCliente = filas / (clientes.size()+1);
         int residuo = filas % clientes.size();
         int filasActual = filasCliente + residuo;
+        objConcurrente.setFilas1(filas);
+        objConcurrente.setFilas2(filas);
+        objConcurrente.setColumnas1(columnas);
+        objConcurrente.setColumnas1(columnas);
+        objConcurrente.setInicio(0);
         objConcurrente.setFilaFinal(filasActual);
+        objConcurrente.setSaltos(saltos);
+        objConcurrente.setCantidadHilos(hilos);
+        matriz = new int[filas][columnas];
+        inicializarMatriz();
         System.out.println(filas);
         System.out.println(filasActual);
         System.out.println(filasCliente);
         System.out.println(clientes.size());
         for (InterfaceCliente cliente : clientes) {
-            cliente.recibirDatos(filasActual, filasActual + filasCliente, 10, 4,filas);
+            cliente.recibirDatos(filasActual, filasActual + filasCliente, saltos, hilos,filas);
             filasActual += filasCliente;
         }
     }
@@ -104,18 +116,24 @@ public class MatrizParalela extends UnicastRemoteObject implements
     public void multiplicarServidor() {
         objConcurrente.setMatriz1(matriz1);
         objConcurrente.setMatriz2(matriz2);
+        objConcurrente.setCantidadHilos(hilos);
+        objConcurrente.setColumnas1(columnas);
+        objConcurrente.setColumnas2(columnas);
+        objConcurrente.setFilas1(filas);
+        objConcurrente.setFilas2(filas);
+        objConcurrente.setSaltos(saltos);
         try {
             objConcurrente.correrHilos();
-            System.out.println("a");
+            System.out.println("Meter datos servidor");
             meterDatos(objConcurrente.getInicio(), objConcurrente.getFilaFinal(), 0, objConcurrente.getMatrizResultado());
         } catch (Exception e) {
-            System.out.println("Problema al correr hilos del cliente " + e);
+            System.out.println("Problema al correr hilos del servidor " + e);
         }
     }
 
     public void generarMatrizIndividual() {
         Random rand = new Random(semilla);
-
+        
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 int numeroAleatorio = rand.nextInt(9 - -9 + 1) + -9;
@@ -138,6 +156,8 @@ public class MatrizParalela extends UnicastRemoteObject implements
     }
     
     public void generarMatrices () throws RemoteException{
+        matriz1 = new int[filas][columnas];
+        matriz2 = new int[filas][columnas];
         generarMatricesClientes();
         generarMatrizIndividual();
     }
@@ -158,7 +178,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
         return filas;
     }
 
-    public void setFilas(int filas) {
+    public void setFilas(int filas)throws RemoteException {
         this.filas = filas;
     }
 
@@ -166,7 +186,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
         return columnas;
     }
 
-    public void setColumnas(int columnas) {
+    public void setColumnas(int columnas) throws RemoteException{
         this.columnas = columnas;
     }
 
@@ -184,6 +204,22 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
     public void setSemilla(long semilla) {
         this.semilla = semilla;
+    }
+
+    public int getHilos() {
+        return hilos;
+    }
+
+    public void setHilos(int hilos) throws RemoteException{
+        this.hilos = hilos;
+    }
+
+    public int getSaltos() {
+        return saltos;
+    }
+
+    public void setSaltos(int saltos) throws RemoteException{
+        this.saltos = saltos;
     }
 
 }
