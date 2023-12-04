@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -52,7 +54,9 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
     int matrizResultadoSecuencial[][];
     int matrizResultadoConcurrente[][];
-
+    
+    InterfazRemota mir = null;
+    
     /**
      *
      * Creates new form InterfazMatrices
@@ -62,6 +66,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
         initComponents();
         spnMax.setValue(9);
         spnMin.setValue(-9);
+        levantarServicio();
     }
 
     /**
@@ -425,39 +430,83 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCambiarTiempoActionPerformed
 
+    public void levantarServicio() {
+        int filas = 1000;
+        int columnas = 1000;
+        int saltos = 10;
+        int hilos = 8;
+        Thread hilo = new Thread(() -> {
+            Registry registry = null;
+            
+
+            try {
+                // Crea el registro RMI
+                registry = LocateRegistry.createRegistry(1235);
+
+                // Crea el objeto remoto si aún no existe
+                if (mir == null) {
+                    mir = new MatrizParalela(filas, columnas, matriz1, saltos, hilos);
+                }
+
+                // Exporta el objeto remoto solo si no ha sido exportado previamente
+                try {
+                    java.rmi.Naming.rebind("//" + java.net.InetAddress.getLocalHost().getHostAddress() + ":9999/ChatRMI", mir);
+                    mir.inicializarMatriz();
+                } catch (ExportException e) {
+                    System.out.println("El objeto remoto ya está exportado.");
+                }
+
+                while (true) {
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            } finally {
+                try {
+                    if (mir != null) {
+                        // Desvincula el objeto remoto del registro RMI
+                        java.rmi.Naming.unbind("//" + java.net.InetAddress.getLocalHost().getHostAddress() + ":1235/ChatRMI");
+
+                        // Deshace la exportación del objeto remoto
+                        UnicastRemoteObject.unexportObject(mir, true);
+                    }
+                    if (registry != null) {
+                        // Detén el registro RMI
+                        UnicastRemoteObject.unexportObject(registry, true);
+                    }
+                } catch (Exception ex) {
+                    System.out.println("Error al detener el registro RMI: " + ex);
+                }
+            }
+        });
+        hilo.start();
+    }
+
     private void btnParaleloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParaleloActionPerformed
         // TODO add your handling code here:
-        concurrente objConcurrente = new concurrente(1000, 1000, 1000, 1000, 10);
-        
-        matriz1 = leerMatrizDesdeArchivo("matriz1.txt");
-        matriz2 = leerMatrizDesdeArchivo("matriz2.txt");
-        
-        objConcurrente.setMatriz1(matriz1);
-        objConcurrente.setMatriz2(matriz2);
-        
-        objConcurrente.setCantidadHilos(2);
-        objConcurrente.setSaltos(10);
-        objConcurrente.setInicio(0);
-        objConcurrente.setFilaFinal(499);
+
         try {
-            objConcurrente.correrHilos();
+
             Registry registry = LocateRegistry.createRegistry(
                     Integer.parseInt("9999"));
+
             
-            InterfazRemota mir = new MatrizParalela();
             System.out.println("Servicio levantado");
             java.rmi.Naming.rebind("//"
                     + java.net.InetAddress.getLocalHost().getHostAddress()
                     + ":9999/Matrices", mir);
-            mir.inicializarMatriz();
+            
+            mir.generarMatrices();
+            mir.dividirChamba();
+            mir.correrProcesos();
+            mir.imprimirMatriz();
             //imprimirMatriz(objConcurrente.getMatrizResultado());
-            mir.meterDatos(0, 499, 0, objConcurrente.getMatrizResultado());
+
             //mir.imprimirMatriz();
         } catch (Exception e) {
-            System.out.println("error al levantar servicio "+e);
+            System.out.println("error al levantar servicio " + e);
         }
     }//GEN-LAST:event_btnParaleloActionPerformed
-    
+
     private boolean verificarDatos() {
         if (Integer.parseInt(txtColumnas1.getText()) != Integer.parseInt(txtFilas2.getText())) {
             return false;
@@ -625,7 +674,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Hubo un problema al intentar borrar el archivo");
         }
     }
-    
+
     public void imprimirMatriz(int matriz[][]) throws RemoteException {
         if (matriz != null) {
             for (int i = 0; i < matriz.length; i++) {
@@ -665,7 +714,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
         return matriz;
     }
-    
+
     /**
      * @param args the command line arguments
      */

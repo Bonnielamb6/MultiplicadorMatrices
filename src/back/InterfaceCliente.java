@@ -12,4 +12,6 @@ import java.rmi.RemoteException;
 public interface InterfaceCliente extends Remote{
     public String direccion() throws RemoteException;
     public void generarMatrices() throws RemoteException;
+    public void recibirDatos(int filaInicio,int filaFinal, int saltos, int hilos,int filas) throws RemoteException;
+    public void multiplicar()throws RemoteException;
 }

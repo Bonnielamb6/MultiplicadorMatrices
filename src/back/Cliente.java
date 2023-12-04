@@ -14,6 +14,7 @@ import java.rmi.registry.Registry;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.rmi.Naming;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -27,17 +28,16 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
     int cantidadFilas;
     private InterfazRemota mir;
     concurrente objConcurrente;
+    int matriz1[][];
+    int matriz2[][];
+    int saltos = 0;
+    int hilos = 0;
     
     public Cliente ()throws RemoteException{}
     
-    public Cliente(int filaInicio, int columnas, int filaFinal, int columnas2, int saltos, int hilos,InterfazRemota mir) throws RemoteException{
-        objConcurrente = new concurrente(columnas, columnas2, columnas, columnas2, saltos);
-        objConcurrente.setInicio(filaInicio);
-        objConcurrente.setFilaFinal(filaFinal);
-        objConcurrente.setSaltos(saltos);
-        objConcurrente.setCantidadHilos(hilos);
+    public Cliente(InterfazRemota mir) throws RemoteException{
         this.mir = mir;
-        //this.mir.conectarCliente(this);
+        this.mir.conectarCliente(this);
         
         
     }
@@ -55,11 +55,24 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
 
     public void generarMatrices() throws RemoteException{
         
+        
+        Random rand = new Random(semilla);
+
+            for (int i = 0; i < cantidadFilas; i++) {
+                for (int j = 0; j < cantidadFilas; j++) {
+                    int numeroAleatorio = rand.nextInt(9 - -9 + 1) + -9;
+                    matriz1[i][j] = numeroAleatorio;
+                }
+            }
+            for (int i = 0; i < cantidadFilas; i++) {
+                for (int j = 0; j < cantidadFilas; j++) {
+                    int numeroAleatorio = rand.nextInt(9 - -9 + 1) + -9;
+                    matriz2[i][j] = numeroAleatorio;
+                }
+            }
     }
     
-    public void multiplicar(){
-        int matriz1[][] = leerMatrizDesdeArchivo("matriz1.txt");
-        int matriz2[][] = leerMatrizDesdeArchivo("matriz2.txt");
+    public void multiplicar() throws RemoteException{
         
         objConcurrente.setMatriz1(matriz1);
         objConcurrente.setMatriz2(matriz2);
@@ -70,6 +83,21 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
         } catch (Exception e) {
             System.out.println("Problema al correr hilos del cliente "+e);
         }
+    }
+    
+    public void recibirDatos(int filaInicio,int filaFinal, int saltos, int hilos,int filas) throws RemoteException{
+        this.filaInicio = filaInicio;
+        this.filaFinal = filaFinal;
+        this.saltos = saltos;
+        this.hilos = hilos;
+        cantidadFilas = filas;
+        matriz1 = new int[cantidadFilas][cantidadFilas];
+        matriz2 = new int[cantidadFilas][cantidadFilas];
+        objConcurrente = new concurrente(filas, filas, filas, filas, saltos);
+        objConcurrente.setInicio(filaInicio);
+        objConcurrente.setFilaFinal(filaFinal);
+        objConcurrente.setSaltos(saltos);
+        objConcurrente.setCantidadHilos(hilos);
     }
     
     private static int[][] leerMatrizDesdeArchivo(String rutaArchivo) {
@@ -114,29 +142,14 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
     }
 
     public static void main(String[] args) throws RemoteException {
-        Scanner sc = new Scanner(System.in);
-        int filaInicio, filaFinal,cantidadColumnas,cantidadSaltos,cantidadHilos;
-        System.out.println("Fila inicio");
-        filaInicio = sc.nextInt();
-        System.out.println("Fila final");
-        filaFinal = sc.nextInt();
-        System.out.println("Cantidad de columnas");
-        cantidadColumnas = sc.nextInt();
-        System.out.println("Cantidad de saltos");
-        cantidadSaltos = sc.nextInt();
-        System.out.println("Cantidad de hilos");
-        cantidadHilos = sc.nextInt();
+        
         try {
             Registry registry = LocateRegistry.createRegistry(
                     Integer.parseInt("9999"));
             InterfazRemota mir
                     = (InterfazRemota) Naming.lookup("//"
                             +"192.168.100.5:9999/Matrices");
-            Cliente cliente = new Cliente(filaInicio,cantidadColumnas, filaFinal, cantidadColumnas, cantidadSaltos, cantidadHilos,mir);
-            
-            cliente.multiplicar();
-            
-            mir.imprimirMatriz();
+            Cliente cliente = new Cliente(mir);
         } catch (Exception e) {
             System.out.println("Error al correr hilos del cliente"+e);
         }

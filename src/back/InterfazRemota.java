@@ -15,4 +15,7 @@ public interface InterfazRemota extends Remote{
     public void inicializarMatriz() throws RemoteException;
     public void imprimirMatriz() throws RemoteException;
     public void conectarCliente(InterfaceCliente cliente) throws RemoteException;
+    public void dividirChamba() throws RemoteException;
+    public void generarMatrices()throws RemoteException;
+    public void correrProcesos() throws RemoteException;
 }
