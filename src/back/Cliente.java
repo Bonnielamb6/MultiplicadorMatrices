@@ -25,21 +25,21 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
     int filaInicio;
     int filaFinal;
     int cantidadFilas;
-    InterfazRemota mir;
-    concurrente objConcurrente = new concurrente();
+    private InterfazRemota mir;
+    concurrente objConcurrente;
     
     public Cliente ()throws RemoteException{}
     
     public Cliente(int filaInicio, int columnas, int filaFinal, int columnas2, int saltos, int hilos,InterfazRemota mir) throws RemoteException{
-        super();
+        objConcurrente = new concurrente(columnas, columnas2, columnas, columnas2, saltos);
         objConcurrente.setInicio(filaInicio);
         objConcurrente.setFilaFinal(filaFinal);
-        objConcurrente.setColumnas1(columnas);
-        objConcurrente.setColumnas2(columnas);
         objConcurrente.setSaltos(saltos);
         objConcurrente.setCantidadHilos(hilos);
         this.mir = mir;
-        mir.conectarCliente(this);
+        //this.mir.conectarCliente(this);
+        
+        
     }
     
     public String direccion() throws RemoteException{
@@ -66,7 +66,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
         try {
             objConcurrente.correrHilos();
             System.out.println("a");
-            mir.meterDatos(filaInicio,filaFinal, 0, objConcurrente.getMatrizResultado());
+            mir.meterDatos(objConcurrente.getInicio(),objConcurrente.getFilaFinal(), 0, objConcurrente.getMatrizResultado());
         } catch (Exception e) {
             System.out.println("Problema al correr hilos del cliente "+e);
         }
@@ -133,9 +133,10 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
                     = (InterfazRemota) Naming.lookup("//"
                             +"192.168.100.5:9999/Matrices");
             Cliente cliente = new Cliente(filaInicio,cantidadColumnas, filaFinal, cantidadColumnas, cantidadSaltos, cantidadHilos,mir);
+            
             cliente.multiplicar();
             
-            //mir.imprimirMatriz();
+            mir.imprimirMatriz();
         } catch (Exception e) {
             System.out.println("Error al correr hilos del cliente"+e);
         }
