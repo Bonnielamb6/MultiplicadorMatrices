@@ -4,7 +4,6 @@
  */
 package back;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -17,12 +16,14 @@ import java.rmi.Naming;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author PC
  */
-public class Cliente extends java.rmi.server.UnicastRemoteObject implements InterfaceCliente{
-    long semilla= 12345L;
+public class Cliente extends java.rmi.server.UnicastRemoteObject implements InterfaceCliente {
+
+    long semilla = 12345L;
     int filaInicio;
     int filaFinal;
     int cantidadFilas;
@@ -32,74 +33,77 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
     int matriz2[][];
     int saltos = 0;
     int hilos = 0;
-    
-    public Cliente ()throws RemoteException{}
-    
-    public Cliente(InterfazRemota mir) throws RemoteException{
+
+    public Cliente() throws RemoteException {
+    }
+
+    public Cliente(InterfazRemota mir) throws RemoteException {
         this.mir = mir;
         this.mir.conectarCliente(this);
-        
-        
+
     }
-    
-    public String direccion() throws RemoteException{
+
+    public String direccion() throws RemoteException {
         try {
-            return ""+java.net.InetAddress.getLocalHost().getHostAddress().toString();
+            return "" + java.net.InetAddress.getLocalHost().getHostAddress().toString();
         } catch (UnknownHostException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-   
 
-    public void generarMatrices() throws RemoteException{
-        
-        
+    public void generarMatrices() throws RemoteException {
+        matriz1 = new int[cantidadFilas][cantidadFilas];
+        matriz2 = new int[cantidadFilas][cantidadFilas];
+        System.out.println("generando matrices");
         Random rand = new Random(semilla);
 
-            for (int i = 0; i < cantidadFilas; i++) {
-                for (int j = 0; j < cantidadFilas; j++) {
-                    int numeroAleatorio = rand.nextInt(9 - -9 + 1) + -9;
-                    matriz1[i][j] = numeroAleatorio;
-                }
+        for (int i = 0; i < cantidadFilas; i++) {
+            for (int j = 0; j < cantidadFilas; j++) {
+                int numeroAleatorio = rand.nextInt(9 - (-9) + 1) + (-9);
+                matriz1[i][j] = numeroAleatorio;
             }
-            for (int i = 0; i < cantidadFilas; i++) {
-                for (int j = 0; j < cantidadFilas; j++) {
-                    int numeroAleatorio = rand.nextInt(9 - -9 + 1) + -9;
-                    matriz2[i][j] = numeroAleatorio;
-                }
+        }
+
+        for (int i = 0; i < cantidadFilas; i++) {
+            for (int j = 0; j < cantidadFilas; j++) {
+                int numeroAleatorio = rand.nextInt(9 - (-9) + 1) + (-9);
+                matriz2[i][j] = numeroAleatorio;
             }
-    }
-    
-    public void multiplicar() throws RemoteException{
-        
-        objConcurrente.setMatriz1(matriz1);
-        objConcurrente.setMatriz2(matriz2);
-        try {
-            objConcurrente.correrHilos();
-            System.out.println("a");
-            mir.meterDatos(objConcurrente.getInicio(),objConcurrente.getFilaFinal(), 0, objConcurrente.getMatrizResultado());
-        } catch (Exception e) {
-            System.out.println("Problema al correr hilos del cliente "+e);
         }
     }
-    
-    public void recibirDatos(int filaInicio,int filaFinal, int saltos, int hilos,int filas) throws RemoteException{
+
+    public void multiplicar() throws RemoteException {
+        System.out.println("matriz 1");
+        objConcurrente.setMatriz1(matriz1);
+        System.out.println("matriz 2");
+        objConcurrente.setMatriz2(matriz2);
+        try {
+            System.out.println("correr");
+            objConcurrente.correrHilos();
+            System.out.println("meterDatos");
+            System.out.println(matriz1[999][999]);
+            System.out.println(matriz2[999][999]);
+            mir.meterDatos(objConcurrente.getInicio(), objConcurrente.getFilaFinal(), 0, objConcurrente.getMatrizResultado());
+        } catch (Exception e) {
+            System.out.println("Problema al correr hilos del cliente " + e);
+        }
+    }
+
+    public void recibirDatos(int filaInicio, int filaFinal, int saltos, int hilos, int filas) throws RemoteException {
         this.filaInicio = filaInicio;
         this.filaFinal = filaFinal;
         this.saltos = saltos;
         this.hilos = hilos;
         cantidadFilas = filas;
-        matriz1 = new int[cantidadFilas][cantidadFilas];
-        matriz2 = new int[cantidadFilas][cantidadFilas];
+        
         objConcurrente = new concurrente(filas, filas, filas, filas, saltos);
         objConcurrente.setInicio(filaInicio);
         objConcurrente.setFilaFinal(filaFinal);
         objConcurrente.setSaltos(saltos);
         objConcurrente.setCantidadHilos(hilos);
     }
-    
+
     private static int[][] leerMatrizDesdeArchivo(String rutaArchivo) {
         int[][] matriz = null;
 
@@ -142,19 +146,18 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
     }
 
     public static void main(String[] args) throws RemoteException {
-        
+
         try {
             Registry registry = LocateRegistry.createRegistry(
                     Integer.parseInt("9999"));
             InterfazRemota mir
                     = (InterfazRemota) Naming.lookup("//"
-                            +"192.168.100.5:9999/Matrices");
+                            + "192.168.100.5:9999/Matrices");
             Cliente cliente = new Cliente(mir);
         } catch (Exception e) {
-            System.out.println("Error al correr hilos del cliente"+e);
+            System.out.println("Error al correr hilos del cliente" + e);
         }
-        
-        
+
     }
 
     public long getSemilla() {
@@ -204,7 +207,5 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
     public void setObjConcurrente(concurrente objConcurrente) {
         this.objConcurrente = objConcurrente;
     }
-    
-    
-    
+
 }
