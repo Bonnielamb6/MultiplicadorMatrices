@@ -4,11 +4,13 @@
  */
 package back;
 
+import front.InterfazCliente;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 
 /**
  *
@@ -16,7 +18,7 @@ import java.rmi.registry.Registry;
  */
 public class MatrizParalela extends UnicastRemoteObject implements
         InterfazRemota {
-
+    private List<InterfaceCliente> clientes;
     private int filas;
     private int columnas;
     private int[][] matriz = new int[1000][1000];
@@ -31,6 +33,10 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
     }
 
+    public void conectarCliente(InterfaceCliente cliente) throws RemoteException{
+        clientes.add(cliente);
+    }
+    
     public void inicializarMatriz() throws RemoteException {
         for (int i = 0; i < 1000; i++) {
             for (int j = 0; j < 1000; j++) {
@@ -63,4 +69,8 @@ public class MatrizParalela extends UnicastRemoteObject implements
         }
     }
 
+    public void correrProcesos(){
+        
+    }
+    
 }

@@ -4,68 +4,83 @@
  */
 package back;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.net.UnknownHostException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.rmi.Naming;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author PC
  */
-public class Cliente {
-    
-
-    
+public class Cliente extends java.rmi.server.UnicastRemoteObject implements InterfaceCliente{
+    long semilla= 12345L;
     int filaInicio;
     int filaFinal;
     int cantidadFilas;
+    InterfazRemota mir;
+    concurrente objConcurrente = new concurrente();
     
-    
-    public void conectarConServidor(){
-        concurrente objConcurrente = new concurrente(1000, 1000, 1000, 1000, 10);
-        filaInicio = 500;
-        filaFinal = 1000;
-        int matriz1[][] = leerMatrizDesdeArchivo("matriz1.txt");
-        int matriz2[][] = leerMatrizDesdeArchivo("matriz2.txt");
-        
-        objConcurrente.setMatriz1(matriz1);
-        objConcurrente.setMatriz2(matriz2);
-        
-        objConcurrente.setCantidadHilos(2);
-        objConcurrente.setSaltos(10);
+    public Cliente(int filaInicio, int columnas, int filaFinal, int columnas2, int saltos, int hilos) throws RemoteException{
+        super();
         objConcurrente.setInicio(filaInicio);
         objConcurrente.setFilaFinal(filaFinal);
-        
-        
-        
+        objConcurrente.setColumnas1(columnas);
+        objConcurrente.setColumnas2(columnas);
+        objConcurrente.setSaltos(saltos);
+        objConcurrente.setCantidadHilos(hilos);
+        mir.conectarCliente(this);
+    }
+    
+    public String direccion() throws RemoteException{
         try {
-            
-            objConcurrente.correrHilos();
-            //imprimirMatriz(matriz1);
-            //System.out.println("matriz2");
-            //imprimirMatriz(matriz2);
-            //System.out.println("resultado");
-            //imprimirMatriz(objConcurrente.getMatrizResultado());
-            //imprimirMatriz(objConcurrente.getMatrizResultado());
+            return ""+java.net.InetAddress.getLocalHost().getHostAddress().toString();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public void conectarConServidor(){
+        try {
             Registry registry = LocateRegistry.createRegistry(
                     Integer.parseInt("9999"));
-
-            
-
             InterfazRemota mir
                     = (InterfazRemota) Naming.lookup("//"
                             +"192.168.100.5:9999/Matrices");
+            multiplicar();
             
-            mir.meterDatos(filaInicio,filaFinal, 0, objConcurrente.getMatrizResultado());
-            mir.imprimirMatriz();
+            //mir.imprimirMatriz();
         } catch (Exception e) {
             System.out.println("Error al correr hilos"+e);
         }
     }
 
+    public void generarMatrices() throws RemoteException{
+        
+    }
+    
+    public void multiplicar(){
+        int matriz1[][] = leerMatrizDesdeArchivo("matriz1.txt");
+        int matriz2[][] = leerMatrizDesdeArchivo("matriz2.txt");
+        
+        objConcurrente.setMatriz1(matriz1);
+        objConcurrente.setMatriz2(matriz2);
+        try {
+            objConcurrente.correrHilos();
+            mir.meterDatos(filaInicio,filaFinal, 0, objConcurrente.getMatrizResultado());
+        } catch (Exception e) {
+            System.out.println("Problema al correr hilos del cliente "+e);
+        }
+    }
+    
     private static int[][] leerMatrizDesdeArchivo(String rutaArchivo) {
         int[][] matriz = null;
 
@@ -107,8 +122,21 @@ public class Cliente {
         }
     }
 
-    public static void main(String[] args) {
-        Cliente cliente = new Cliente();
+    public static void main(String[] args) throws RemoteException {
+        Scanner sc = new Scanner(System.in);
+        int filaInicio, filaFinal,cantidadColumnas,cantidadSaltos,cantidadHilos;
+        System.out.println("Fila inicio");
+        filaInicio = sc.nextInt();
+        System.out.println("Fila final");
+        filaFinal = sc.nextInt();
+        System.out.println("Cantidad de columnas");
+        cantidadColumnas = sc.nextInt();
+        System.out.println("Cantidad de saltos");
+        cantidadSaltos = sc.nextInt();
+        System.out.println("Cantidad de hilos");
+        cantidadHilos = sc.nextInt();
+        
+        Cliente cliente = new Cliente(filaInicio,cantidadColumnas, filaFinal, cantidadColumnas, cantidadSaltos, cantidadHilos);
         cliente.conectarConServidor();
     }
     

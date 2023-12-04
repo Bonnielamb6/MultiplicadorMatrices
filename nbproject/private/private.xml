@@ -5,11 +5,10 @@
         <group>
             <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/concurrente.java</file>
             <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/MatrizParalela.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/MatrizConcurrente.java</file>
             <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/front/InterfazMatrices.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/HilosMultiplicar.java</file>
+            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/InterfazRemota.java</file>
+            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/front/InterfazCliente.java</file>
             <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/back/Cliente.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/MultiplicadorMatrices/src/front/Cliente.java</file>
         </group>
     </open-files>
 </project-private>
