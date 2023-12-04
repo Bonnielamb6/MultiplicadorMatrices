@@ -65,6 +65,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
         objConcurrente.setMatriz2(matriz2);
         try {
             objConcurrente.correrHilos();
+            System.out.println("a");
             mir.meterDatos(filaInicio,filaFinal, 0, objConcurrente.getMatrizResultado());
         } catch (Exception e) {
             System.out.println("Problema al correr hilos del cliente "+e);
@@ -136,7 +137,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
             
             //mir.imprimirMatriz();
         } catch (Exception e) {
-            System.out.println("Error al correr hilos"+e);
+            System.out.println("Error al correr hilos del cliente"+e);
         }
         
         

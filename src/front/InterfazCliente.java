@@ -24,7 +24,7 @@ public class InterfazCliente extends javax.swing.JFrame {
     int filaInicio;
     int filaFinal;
     int cantidadFilas;
-    Cliente cliente = new Cliente();
+   // Cliente cliente = new Cliente();
     
     /**
      * Creates new form InterfazCliente
@@ -32,7 +32,7 @@ public class InterfazCliente extends javax.swing.JFrame {
     public InterfazCliente() {
         initComponents();
         
-        cliente.conectarConServidor();
+     //   cliente.conectarConServidor();
     }
 
     public void conectarConServidor() {
