@@ -4,7 +4,7 @@
  */
 package back;
 
-import front.InterfazCliente;
+
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;

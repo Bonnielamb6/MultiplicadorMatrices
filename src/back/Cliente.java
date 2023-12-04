@@ -28,7 +28,9 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
     InterfazRemota mir;
     concurrente objConcurrente = new concurrente();
     
-    public Cliente(int filaInicio, int columnas, int filaFinal, int columnas2, int saltos, int hilos) throws RemoteException{
+    public Cliente ()throws RemoteException{}
+    
+    public Cliente(int filaInicio, int columnas, int filaFinal, int columnas2, int saltos, int hilos,InterfazRemota mir) throws RemoteException{
         super();
         objConcurrente.setInicio(filaInicio);
         objConcurrente.setFilaFinal(filaFinal);
@@ -36,6 +38,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
         objConcurrente.setColumnas2(columnas);
         objConcurrente.setSaltos(saltos);
         objConcurrente.setCantidadHilos(hilos);
+        this.mir = mir;
         mir.conectarCliente(this);
     }
     
@@ -48,20 +51,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
         return null;
     }
     
-    public void conectarConServidor(){
-        try {
-            Registry registry = LocateRegistry.createRegistry(
-                    Integer.parseInt("9999"));
-            InterfazRemota mir
-                    = (InterfazRemota) Naming.lookup("//"
-                            +"192.168.100.5:9999/Matrices");
-            multiplicar();
-            
-            //mir.imprimirMatriz();
-        } catch (Exception e) {
-            System.out.println("Error al correr hilos"+e);
-        }
-    }
+   
 
     public void generarMatrices() throws RemoteException{
         
@@ -135,9 +125,21 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
         cantidadSaltos = sc.nextInt();
         System.out.println("Cantidad de hilos");
         cantidadHilos = sc.nextInt();
+        try {
+            Registry registry = LocateRegistry.createRegistry(
+                    Integer.parseInt("9999"));
+            InterfazRemota mir
+                    = (InterfazRemota) Naming.lookup("//"
+                            +"192.168.100.5:9999/Matrices");
+            Cliente cliente = new Cliente(filaInicio,cantidadColumnas, filaFinal, cantidadColumnas, cantidadSaltos, cantidadHilos,mir);
+            cliente.multiplicar();
+            
+            //mir.imprimirMatriz();
+        } catch (Exception e) {
+            System.out.println("Error al correr hilos"+e);
+        }
         
-        Cliente cliente = new Cliente(filaInicio,cantidadColumnas, filaFinal, cantidadColumnas, cantidadSaltos, cantidadHilos);
-        cliente.conectarConServidor();
+        
     }
     
 }
