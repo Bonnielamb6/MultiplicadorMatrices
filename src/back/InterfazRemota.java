@@ -5,8 +5,12 @@
 package back;
 
 import back.InterfaceCliente;
+import java.awt.TextArea;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
+import javax.swing.JList;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -35,4 +39,12 @@ public interface InterfazRemota extends Remote {
     public void setHilos(int hilos) throws RemoteException;
 
     public void setSaltos(int saltos) throws RemoteException;
+
+    public long getTiempoEjecucion() throws RemoteException;
+    
+    public List<InterfaceCliente> getClientes() throws RemoteException;
+    
+    public void lista(JList lista) throws RemoteException;
+    
+    public void proceso(JTextArea procesos) throws RemoteException;
 }

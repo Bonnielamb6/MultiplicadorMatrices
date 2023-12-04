@@ -4,6 +4,7 @@
  */
 package back;
 
+import java.awt.TextArea;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
@@ -17,6 +18,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -37,8 +42,9 @@ public class MatrizParalela extends UnicastRemoteObject implements
     private long tiempoEjecucion = 0;
     private int terminados = 0;
     concurrente objConcurrente;
-    ExecutorService executor;
-
+    
+    private JList lista;
+    private JTextArea procesos;
     public MatrizParalela() throws RemoteException {
         filas = 0;
     }
@@ -57,6 +63,19 @@ public class MatrizParalela extends UnicastRemoteObject implements
     public void conectarCliente(InterfaceCliente cliente) throws RemoteException {
         clientes.add(cliente);
         System.out.println("Cliente " + cliente.direccion() + " conectado");
+        SwingUtilities.invokeLater(() -> {
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+
+            for (InterfaceCliente usuario : clientes) {
+                try {
+                    listModel.addElement(usuario.direccion());
+                } catch (RemoteException ex) {
+                    ex.getMessage();
+                }
+            }
+
+            lista.setModel(listModel);
+        });
     }
 
     public void inicializarMatriz() throws RemoteException {
@@ -107,7 +126,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
         objConcurrente.setFilaFinal(filasActual);
         objConcurrente.setSaltos(saltos);
         objConcurrente.setCantidadHilos(hilos);
-        executor = Executors.newFixedThreadPool(hilos);
+        
         matriz = new int[filas][columnas];
         inicializarMatriz();
         System.out.println(filas);
@@ -170,6 +189,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
     }
 
     public void correrProcesos() throws RemoteException {
+        long startTime = System.currentTimeMillis();
         try {
             System.out.println("c1");
             List<Future<Void>> futures = new ArrayList<>();
@@ -196,10 +216,19 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
             // Apagar el ExecutorService
             executor.shutdown();
+            long endTime = System.currentTimeMillis();
+            tiempoEjecucion = endTime - startTime;
         } catch (Exception e) {
-            System.out.println("Error al querer correr los procesos: "+e);
+            System.out.println("Error al querer correr los procesos: " + e);
         }
 
+        SwingUtilities.invokeLater(() -> {
+            JTextArea txtArea = new JTextArea();
+            txtArea.append(""+tiempoEjecucion +" milisegundos");
+            procesos.setText(txtArea.getText());
+            
+        });
+        
         System.out.println("c2");
 
     }
@@ -252,4 +281,19 @@ public class MatrizParalela extends UnicastRemoteObject implements
         this.saltos = saltos;
     }
 
+    public long getTiempoEjecucion() throws RemoteException{
+        return tiempoEjecucion;
+    }
+
+    public List<InterfaceCliente> getClientes() throws RemoteException{
+        return clientes;
+    }
+    
+    public void lista(JList lista) throws RemoteException{
+        this.lista = lista;
+    }
+    
+    public void proceso(JTextArea procesos) throws RemoteException{
+        this.procesos = procesos;
+    }
 }

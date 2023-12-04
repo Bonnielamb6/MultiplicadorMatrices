@@ -111,6 +111,12 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblConcurrenteEstado = new javax.swing.JLabel();
         btnParalelo = new javax.swing.JButton();
         btnGenMatrices = new javax.swing.JButton();
+        lblUsuarios = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtProcesos = new javax.swing.JTextArea();
+        lblProcesos = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listaUsuarios = new javax.swing.JList<>();
         ImagenFondo = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
@@ -123,12 +129,13 @@ public class InterfazMatrices extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitulo.setBackground(new java.awt.Color(153, 153, 255));
+        lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("MULTIPLICADOR DE MATRICES");
         lblTitulo.setFocusable(false);
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblTitulo.setOpaque(true);
-        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1230, 41));
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 41));
 
         txtFilas1.setBackground(new java.awt.Color(51, 102, 255));
         txtFilas1.setForeground(new java.awt.Color(255, 255, 255));
@@ -182,7 +189,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnSecuencialActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 400, 130, 40));
+        jPanel1.add(btnSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 130, 40));
 
         btnConcurrente.setBackground(new java.awt.Color(0, 255, 0));
         btnConcurrente.setForeground(new java.awt.Color(0, 0, 0));
@@ -192,7 +199,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnConcurrenteActionPerformed(evt);
             }
         });
-        jPanel1.add(btnConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 320, 130, 40));
+        jPanel1.add(btnConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 240, 130, 40));
 
         txtSaltos.setBackground(new java.awt.Color(51, 102, 255));
         txtSaltos.setForeground(new java.awt.Color(255, 255, 255));
@@ -221,13 +228,13 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblTiempoSecuencial.setForeground(new java.awt.Color(0, 0, 0));
         lblTiempoSecuencial.setText("0");
         lblTiempoSecuencial.setOpaque(true);
-        jPanel1.add(lblTiempoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 460, -1, -1));
+        jPanel1.add(lblTiempoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, -1, -1));
 
         lblTiempoConcurrente.setBackground(new java.awt.Color(255, 153, 153));
         lblTiempoConcurrente.setForeground(new java.awt.Color(0, 0, 0));
         lblTiempoConcurrente.setText("0");
         lblTiempoConcurrente.setOpaque(true);
-        jPanel1.add(lblTiempoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 430, -1, -1));
+        jPanel1.add(lblTiempoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 350, -1, -1));
 
         btnGenerarMatrices.setBackground(new java.awt.Color(255, 153, 153));
         btnGenerarMatrices.setForeground(new java.awt.Color(0, 0, 0));
@@ -261,13 +268,13 @@ public class InterfazMatrices extends javax.swing.JFrame {
         lblTextoConcurrente.setForeground(new java.awt.Color(0, 0, 0));
         lblTextoConcurrente.setText("Tiempo en milisegundos");
         lblTextoConcurrente.setOpaque(true);
-        jPanel1.add(lblTextoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 410, -1, -1));
+        jPanel1.add(lblTextoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 310, -1, -1));
 
         lblTextoSecuencial.setBackground(new java.awt.Color(51, 255, 51));
         lblTextoSecuencial.setForeground(new java.awt.Color(0, 0, 0));
         lblTextoSecuencial.setText("Tiempo en milisegundos");
         lblTextoSecuencial.setOpaque(true);
-        jPanel1.add(lblTextoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, -1, -1));
+        jPanel1.add(lblTextoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
 
         btnCambiarTiempo.setBackground(new java.awt.Color(0, 0, 255));
         btnCambiarTiempo.setForeground(new java.awt.Color(255, 255, 255));
@@ -277,35 +284,35 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnCambiarTiempoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCambiarTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 620, 190, 40));
+        jPanel1.add(btnCambiarTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 320, 190, 40));
 
         lblProgresoConcurrente.setBackground(new java.awt.Color(51, 255, 51));
         lblProgresoConcurrente.setForeground(new java.awt.Color(0, 0, 0));
         lblProgresoConcurrente.setText("Listo");
         lblProgresoConcurrente.setOpaque(true);
-        jPanel1.add(lblProgresoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 400, -1, -1));
+        jPanel1.add(lblProgresoConcurrente, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 310, -1, -1));
 
         lblProgresoSecuencial.setBackground(new java.awt.Color(0, 255, 51));
         lblProgresoSecuencial.setForeground(new java.awt.Color(0, 0, 0));
         lblProgresoSecuencial.setText("Listo");
         lblProgresoSecuencial.setOpaque(true);
-        jPanel1.add(lblProgresoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 450, -1, -1));
+        jPanel1.add(lblProgresoSecuencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, -1, -1));
 
         lblSecuencialEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuEsperando.gif"))); // NOI18N
-        jPanel1.add(lblSecuencialEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 490, 130, 110));
+        jPanel1.add(lblSecuencialEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 130, 110));
 
         lblConcurrenteEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuEsperando.gif"))); // NOI18N
-        jPanel1.add(lblConcurrenteEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 490, -1, -1));
+        jPanel1.add(lblConcurrenteEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 350, -1, -1));
 
         btnParalelo.setBackground(new java.awt.Color(0, 255, 0));
         btnParalelo.setForeground(new java.awt.Color(0, 0, 0));
-        btnParalelo.setText("Paralelo");
+        btnParalelo.setText("Correr Paralelo");
         btnParalelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnParaleloActionPerformed(evt);
             }
         });
-        jPanel1.add(btnParalelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 440, 100, 30));
+        jPanel1.add(btnParalelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 610, 130, 40));
 
         btnGenMatrices.setBackground(new java.awt.Color(0, 255, 0));
         btnGenMatrices.setForeground(new java.awt.Color(0, 0, 0));
@@ -315,10 +322,33 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 btnGenMatricesActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGenMatrices, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, 130, 40));
+        jPanel1.add(btnGenMatrices, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 540, 130, 40));
+
+        lblUsuarios.setBackground(new java.awt.Color(0, 0, 0));
+        lblUsuarios.setForeground(new java.awt.Color(255, 255, 255));
+        lblUsuarios.setText("Usuarios");
+        lblUsuarios.setOpaque(true);
+        jPanel1.add(lblUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 450, -1, -1));
+
+        txtProcesos.setEditable(false);
+        txtProcesos.setColumns(20);
+        txtProcesos.setRows(5);
+        jScrollPane1.setViewportView(txtProcesos);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 470, 350, 200));
+
+        lblProcesos.setBackground(new java.awt.Color(0, 0, 0));
+        lblProcesos.setForeground(new java.awt.Color(255, 255, 255));
+        lblProcesos.setText("Procesos");
+        lblProcesos.setOpaque(true);
+        jPanel1.add(lblProcesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 450, -1, -1));
+
+        jScrollPane2.setViewportView(listaUsuarios);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 480, 330, 190));
 
         ImagenFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mikuFondo.jpeg"))); // NOI18N
-        jPanel1.add(ImagenFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 670));
+        jPanel1.add(ImagenFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 710));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, 670));
 
@@ -462,7 +492,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
                 // Exporta el objeto remoto solo si no ha sido exportado previamente
                 try {
                     java.rmi.Naming.rebind("//" + java.net.InetAddress.getLocalHost().getHostAddress() + ":9999/Matrices", mir);
-                    
+                    mir.lista(listaUsuarios);
+                    mir.proceso(txtProcesos);
                 } catch (ExportException e) {
                     System.out.println("El objeto remoto ya está exportado.");
                 }
@@ -772,6 +803,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JButton btnSecuencial;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblColumnas1;
     private javax.swing.JLabel lblColumnas2;
     private javax.swing.JLabel lblConcurrenteEstado;
@@ -780,6 +813,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JLabel lblHilos;
     private javax.swing.JLabel lblMax;
     private javax.swing.JLabel lblMin;
+    private javax.swing.JLabel lblProcesos;
     private javax.swing.JLabel lblProgresoConcurrente;
     private javax.swing.JLabel lblProgresoSecuencial;
     private javax.swing.JLabel lblSaltos;
@@ -789,6 +823,8 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JLabel lblTiempoConcurrente;
     private javax.swing.JLabel lblTiempoSecuencial;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblUsuarios;
+    private javax.swing.JList<String> listaUsuarios;
     private javax.swing.JSpinner spnMax;
     private javax.swing.JSpinner spnMin;
     private javax.swing.JTextField txtColumnas1;
@@ -796,6 +832,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
     private javax.swing.JTextField txtFilas1;
     private javax.swing.JTextField txtFilas2;
     private javax.swing.JTextField txtHilos;
+    private javax.swing.JTextArea txtProcesos;
     private javax.swing.JTextField txtSaltos;
     // End of variables declaration//GEN-END:variables
 }
