@@ -5,6 +5,7 @@
 package front;
 
 import back.InterfazRemota;
+import back.ProgresoListener;
 import java.awt.Color;
 import back.concurrente;
 import back.secuencial;
@@ -29,11 +30,11 @@ import javax.swing.JOptionPane;
  *
  * @author User
  */
-public class InterfazMatrices extends javax.swing.JFrame {
+public class InterfazMatrices extends javax.swing.JFrame implements ProgresoListener{
 
     secuencial objetoSecuencial = new secuencial();
     concurrente objetoConcurrente = new concurrente();
-
+    
     long semilla = 12345L;
 
     int matriz1[][];
@@ -595,6 +596,7 @@ public class InterfazMatrices extends javax.swing.JFrame {
             while (!Thread.currentThread().isInterrupted()) {
 
                 try {
+                    objetoConcurrente.addProgresoListener(this);
                     objetoConcurrente.correrHilos();
 
                     lblTiempoConcurrente.setText("" + objetoConcurrente.getTiempo());
@@ -630,7 +632,12 @@ public class InterfazMatrices extends javax.swing.JFrame {
         hilo.start();
 
     }
-
+    
+    @Override
+    public void actualizarProgreso(int progreso) {
+        System.out.println("Progreso: "+progreso);
+    }
+    
     public void correrSecuencial() {
         Thread hilo = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {

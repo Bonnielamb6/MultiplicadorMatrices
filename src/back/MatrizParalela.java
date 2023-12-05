@@ -217,7 +217,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
                     // Actualiza la interfaz gráfica durante la ejecución del hilo
                     SwingUtilities.invokeLater(() -> {
-                        procesos.append("Progreso parcial cliente (filas): " + progresoParcial + "\n");
+                        procesos.append("Proceso del cliente terminado: "  + "\n");
                     });
 
                     // Incrementa el progresoTotal usando el array de un solo elemento
@@ -238,7 +238,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
                 // Actualiza la interfaz gráfica durante la ejecución del hilo
                 SwingUtilities.invokeLater(() -> {
-                    procesos.append("Progreso parcial del servidor (filas): " + progresoParcial + "\n");
+                    procesos.append("Proceso del servidor terminado: "  + "\n");
                 });
 
                 // Incrementa el progresoTotal usando el array de un solo elemento
@@ -266,7 +266,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
         SwingUtilities.invokeLater(() -> {
             JTextArea txtArea = new JTextArea();
-            txtArea.append("Progreso total (filas): " + progresoTotal[0] + "\n");
+            txtArea.append("Todos los procesos terminados: " +"\n");
             System.out.println(progresoTotal[0]);
             txtArea.append("Tiempo de ejecución: " + tiempoEjecucion + " milisegundos\n");
             procesos.append(txtArea.getText());

@@ -6,6 +6,7 @@ package back;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
@@ -64,7 +65,25 @@ public class concurrente {
     public int getProgreso() {
         return progreso.get();
     }
+    private List<ProgresoListener> progresoListeners = new ArrayList<>();
 
+    public void addProgresoListener(ProgresoListener listener) {
+        progresoListeners.add(listener);
+    }
+
+    private void notificarProgreso() {
+        int progresoActual = getProgreso();
+        for (ProgresoListener listener : progresoListeners) {
+            listener.actualizarProgreso(progresoActual);
+        }
+    }
+
+    
+
+    public void reiniciarProgreso() {
+        progreso.set(0);
+        notificarProgreso();
+    }
     public void correrHilos() throws InterruptedException {
         long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newFixedThreadPool(cantidadHilos);
