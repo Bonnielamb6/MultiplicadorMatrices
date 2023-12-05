@@ -148,7 +148,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
 
         try {
             Registry registry = LocateRegistry.createRegistry(
-                    Integer.parseInt("9999"));
+                    Integer.parseInt("1000"));
             InterfazRemota mir
                     = (InterfazRemota) Naming.lookup("//"
                             + "192.168.100.5:9999/Matrices");

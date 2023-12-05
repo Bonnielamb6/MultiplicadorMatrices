@@ -4,7 +4,11 @@
  */
 package back;
 
+import front.InterfazMatrices;
 import java.awt.TextArea;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
@@ -18,8 +22,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
@@ -42,9 +49,10 @@ public class MatrizParalela extends UnicastRemoteObject implements
     private long tiempoEjecucion = 0;
     private int terminados = 0;
     concurrente objConcurrente;
-    
+    File archivoParalelo;
     private JList lista;
     private JTextArea procesos;
+
     public MatrizParalela() throws RemoteException {
         filas = 0;
     }
@@ -126,7 +134,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
         objConcurrente.setFilaFinal(filasActual);
         objConcurrente.setSaltos(saltos);
         objConcurrente.setCantidadHilos(hilos);
-        
+
         matriz = new int[filas][columnas];
         inicializarMatriz();
         System.out.println(filas);
@@ -224,12 +232,73 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
         SwingUtilities.invokeLater(() -> {
             JTextArea txtArea = new JTextArea();
-            txtArea.append(""+tiempoEjecucion +" milisegundos");
+            txtArea.append("" + tiempoEjecucion + " milisegundos");
             procesos.setText(txtArea.getText());
-            
+
         });
-        
+
+        try {
+            archivoParalelo = new File("archivoParalelo.txt");
+            escribirArchivo(archivoParalelo, matriz1, matriz2, matriz);
+            if (archivoParalelo.createNewFile()) {
+                JOptionPane.showMessageDialog(null, "Archivo creado");
+            }
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error al crear archivo");
+            Logger.getLogger(InterfazMatrices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         System.out.println("c2");
+
+    }
+
+    private void escribirArchivo(File archivoTemp, int[][] matriz1Temp, int[][] matriz2Temp, int[][] matrizResultadoTemp) {
+        try {
+            FileWriter escritura = new FileWriter(archivoTemp);
+            escritura.write("Matriz 1\n");
+
+            for (int i = 0; i < matriz1Temp.length; i++) {
+                escritura.write("[");
+                for (int j = 0; j < matriz1Temp[0].length; j++) {
+                    escritura.write("" + matriz1Temp[i][j] + ",");
+
+                }
+                escritura.write("]\n");
+
+            }
+            escritura.write("\n\n\n\n");
+
+            escritura.write("Matriz 2\n");
+
+            for (int i = 0; i < matriz2Temp.length; i++) {
+                escritura.write("[");
+                for (int j = 0; j < matriz2Temp[0].length; j++) {
+                    escritura.write("" + matriz2Temp[i][j] + ",");
+
+                }
+                escritura.write("]\n");
+
+            }
+            escritura.write("\n\n\n\n");
+
+            escritura.write("Matriz resultante\n");
+
+            for (int i = 0; i < matrizResultadoTemp.length; i++) {
+                escritura.write("[");
+                for (int j = 0; j < matrizResultadoTemp[0].length; j++) {
+                    escritura.write("" + matrizResultadoTemp[i][j] + ",");
+
+                }
+                escritura.write("]\n");
+
+            }
+            escritura.write("\n\n\n\n");
+
+            escritura.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Hubo un error al escribir el archivo" + e);
+        }
 
     }
 
@@ -281,19 +350,19 @@ public class MatrizParalela extends UnicastRemoteObject implements
         this.saltos = saltos;
     }
 
-    public long getTiempoEjecucion() throws RemoteException{
+    public long getTiempoEjecucion() throws RemoteException {
         return tiempoEjecucion;
     }
 
-    public List<InterfaceCliente> getClientes() throws RemoteException{
+    public List<InterfaceCliente> getClientes() throws RemoteException {
         return clientes;
     }
-    
-    public void lista(JList lista) throws RemoteException{
+
+    public void lista(JList lista) throws RemoteException {
         this.lista = lista;
     }
-    
-    public void proceso(JTextArea procesos) throws RemoteException{
+
+    public void proceso(JTextArea procesos) throws RemoteException {
         this.procesos = procesos;
     }
 }
