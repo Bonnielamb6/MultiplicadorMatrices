@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -28,7 +29,6 @@ public class concurrente {
     long semilla = 12345L;
     int min = -9;
     int max = 9;
-    int progreso = 0;
     int cantidadHilos = 0;
     double tiempoEjecucion = 0;
     int matriz1[][];
@@ -58,12 +58,19 @@ public class concurrente {
         filaFinal = filas1;
     }
 
+    private AtomicInteger progreso = new AtomicInteger(0);
+
+    // Método para obtener el progreso actual
+    public int getProgreso() {
+        return progreso.get();
+    }
+
     public void correrHilos() throws InterruptedException {
         long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newFixedThreadPool(cantidadHilos);
 
         objeto.calcularFilasColumnas(filas1, columnas1);
-        //columnasTemp = conseguirColumnas(matriz2, matriz2.);
+
         for (int i = inicio; i < filaFinal;) {
             for (int j = inicio; j < columnas2;) {
                 int[][] filasTemp;
@@ -81,19 +88,22 @@ public class concurrente {
 
                     HilosMultiplicar hilo = new HilosMultiplicar(filasTemp, matriz2, i, objeto);
 
-                    executor.execute(hilo);
+                    executor.execute(() -> {
+                        hilo.run();
+                        // Incrementa el progreso después de que el hilo ha terminado
+                        progreso.addAndGet(saltos);
+                        
+                    });
+
                     j += saltos;
                     i += saltos;
-                }else{
-                    j=columnas2;
-                    i=filaFinal;
+                } else {
+                    j = columnas2;
+                    i = filaFinal;
                 }
-
-                progreso = 50;
             }
-            
-            progreso = 100;
         }
+
         executor.shutdown();
         executor.awaitTermination(100, TimeUnit.MINUTES);
         matrizResultado = objeto.recibirMatriz();
@@ -190,9 +200,7 @@ public class concurrente {
         this.max = max;
     }
 
-    public int getProgreso() {
-        return progreso;
-    }
+    
 
     public double getTiempo() {
         return tiempoEjecucion;

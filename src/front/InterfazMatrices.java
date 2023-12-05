@@ -526,13 +526,16 @@ public class InterfazMatrices extends javax.swing.JFrame {
 
     private void btnParaleloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParaleloActionPerformed
         // TODO add your handling code here:
+        Thread hilo = new Thread(() -> {
+            try {
+                mir.correrProcesos();
+                //mir.imprimirMatriz();
+            } catch (Exception e) {
+                System.out.println("error al correr los procesos" + e);
+            }
+        });
+        hilo.start();
 
-        try {
-            mir.correrProcesos();
-            //mir.imprimirMatriz();
-        } catch (Exception e) {
-            System.out.println("error al levantar servicio " + e);
-        }
     }//GEN-LAST:event_btnParaleloActionPerformed
 
     private void btnGenMatricesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenMatricesActionPerformed

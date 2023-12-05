@@ -198,42 +198,78 @@ public class MatrizParalela extends UnicastRemoteObject implements
 
     public void correrProcesos() throws RemoteException {
         long startTime = System.currentTimeMillis();
+        final int[] progresoTotal = {0};
+        procesos.setText("");
         try {
             System.out.println("c1");
             List<Future<Void>> futures = new ArrayList<>();
             ExecutorService executor = Executors.newFixedThreadPool(clientes.size() + 1);
+
+            // Utiliza un array de un solo elemento para almacenar el progresoTotal mutable
             for (InterfaceCliente cliente : clientes) {
                 System.out.println("c11");
 
                 Callable<Void> task = () -> {
                     cliente.multiplicar();
+
+                    // Incrementa el progreso parcial del cliente
+                    int progresoParcial = cliente.devolverProgreso();
+
+                    // Actualiza la interfaz gráfica durante la ejecución del hilo
+                    SwingUtilities.invokeLater(() -> {
+                        procesos.append("Progreso parcial cliente (filas): " + progresoParcial + "\n");
+                    });
+
+                    // Incrementa el progresoTotal usando el array de un solo elemento
+                    progresoTotal[0] += progresoParcial;
+
                     return null;
                 };
+
                 futures.add(executor.submit(task));
                 System.out.println("c12");
             }
+
             Callable<Void> task = () -> {
                 multiplicarServidor();
+
+                // Incrementa el progreso parcial del servidor
+                int progresoParcial = objConcurrente.getProgreso();
+
+                // Actualiza la interfaz gráfica durante la ejecución del hilo
+                SwingUtilities.invokeLater(() -> {
+                    procesos.append("Progreso parcial del servidor (filas): " + progresoParcial + "\n");
+                });
+
+                // Incrementa el progresoTotal usando el array de un solo elemento
+                progresoTotal[0] += progresoParcial;
+
                 return null;
             };
+
             futures.add(executor.submit(task));
 
+            // Espera a que todos los hilos terminen
             for (Future<Void> future : futures) {
                 future.get();
             }
 
             // Apagar el ExecutorService
             executor.shutdown();
+
             long endTime = System.currentTimeMillis();
             tiempoEjecucion = endTime - startTime;
+
         } catch (Exception e) {
             System.out.println("Error al querer correr los procesos: " + e);
         }
 
         SwingUtilities.invokeLater(() -> {
             JTextArea txtArea = new JTextArea();
-            txtArea.append("" + tiempoEjecucion + " milisegundos");
-            procesos.setText(txtArea.getText());
+            txtArea.append("Progreso total (filas): " + progresoTotal[0] + "\n");
+            System.out.println(progresoTotal[0]);
+            txtArea.append("Tiempo de ejecución: " + tiempoEjecucion + " milisegundos\n");
+            procesos.append(txtArea.getText());
 
         });
 
@@ -250,7 +286,6 @@ public class MatrizParalela extends UnicastRemoteObject implements
         }
 
         System.out.println("c2");
-
     }
 
     private void escribirArchivo(File archivoTemp, int[][] matriz1Temp, int[][] matriz2Temp, int[][] matrizResultadoTemp) {

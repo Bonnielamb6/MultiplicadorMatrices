@@ -14,4 +14,5 @@ public interface InterfaceCliente extends Remote{
     public void generarMatrices() throws RemoteException;
     public void recibirDatos(int filaInicio,int filaFinal, int saltos, int hilos,int filas) throws RemoteException;
     public void multiplicar()throws RemoteException;
+    public int devolverProgreso() throws RemoteException;
 }

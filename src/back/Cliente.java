@@ -82,7 +82,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
             System.out.println("correr");
             objConcurrente.correrHilos();
             System.out.println("meterDatos");
-            
+
             mir.meterDatos(objConcurrente.getInicio(), objConcurrente.getFilaFinal(), 0, objConcurrente.getMatrizResultado());
         } catch (Exception e) {
             System.out.println("Problema al correr hilos del cliente " + e);
@@ -95,7 +95,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
         this.saltos = saltos;
         this.hilos = hilos;
         cantidadFilas = filas;
-        
+
         objConcurrente = new concurrente(cantidadFilas, cantidadFilas, cantidadFilas, cantidadFilas, saltos);
         objConcurrente.setInicio(filaInicio);
         objConcurrente.setFilaFinal(filaFinal);
@@ -157,6 +157,10 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
             System.out.println("Error al correr hilos del cliente" + e);
         }
 
+    }
+
+    public int devolverProgreso() throws RemoteException {
+        return objConcurrente.getProgreso();
     }
 
     public long getSemilla() {
