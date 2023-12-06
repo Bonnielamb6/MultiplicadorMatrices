@@ -103,10 +103,7 @@ public class MatrizParalela extends UnicastRemoteObject implements
                 matriz[i + iterador][columna + j] = dato[i][j];
             }
         }
-        if (terminados == clientes.size() + 1) {
-            imprimirMatriz();
-            terminados = 0;
-        }
+        
     }
 
     public void imprimirMatriz() throws RemoteException {

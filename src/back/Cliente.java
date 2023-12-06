@@ -151,7 +151,7 @@ public class Cliente extends java.rmi.server.UnicastRemoteObject implements Inte
                     Integer.parseInt("1000"));
             InterfazRemota mir
                     = (InterfazRemota) Naming.lookup("//"
-                            + "192.168.100.5:9999/Matrices");
+                            + "192.168.178.130:9999/Matrices");
             Cliente cliente = new Cliente(mir);
         } catch (Exception e) {
             System.out.println("Error al correr hilos del cliente" + e);
